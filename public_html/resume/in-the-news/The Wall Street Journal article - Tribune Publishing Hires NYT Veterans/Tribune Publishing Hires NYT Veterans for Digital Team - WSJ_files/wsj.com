@@ -1,0 +1,1 @@
+PARSELY.pInit({"apikey":"wsj.com","settings":{"debug":false,"widget":false,"tracker":true},"customizations":null,"track_ip_addresses":true,"bundle":"/code/ptrack-v0.4.11-engaged-time.js","track_third_party_cookies":true,"uuid":"0d6dc071-2c7e-4742-aa21-040de6b59dd5","network_uuid":"f0cc6ef9-9ff7-4296-9dab-9b00f91a3c2c","apikey_uuid":"0d6dc071-2c7e-4742-aa21-040de6b59dd5"});

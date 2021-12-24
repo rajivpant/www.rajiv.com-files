@@ -1,0 +1,61 @@
+<HTML>
+<head>
+<!--#include virtual="/common/navigation/meta.inc" -->
+
+</HEAD>
+</HTML>
+
+<body  topmargin="0" leftmargin="0" margintop="0" marginleft="0">
+
+<!--#include virtual="/common/navigation/header.inc" -->
+
+<pre>
+/** toHex
+ *
+ * A function (method) in Java to convert integers (type int) to a hex string.
+ * This is one of my early contributions to Java. Back in Jan '96, the
+ * java.lang.Integer class lacked a toHexString method. This was a common
+ * request on Java newgroups and web pages of Java developers. Instead of
+ * making a package, I just wrote a function that people could cut and paste
+ * into their programs. Now that java.lang.Integer has a toHexString method,
+ * this is obsolete
+ *
+ * @version 1.00 1996/Feb/02
+ * Status: Obsolete. Use toHexString method of java.lang.integer.
+ *
+ * @author Rajiv Pant (Betul)   http://rajiv.org   betul@rajiv.org
+ *
+ */
+
+
+public String toHex(int n)
+{
+  String h = &quot;&quot; ;
+  int r=0;
+  int q=0;
+  int nn=n ;
+  do
+  {
+    r=nn % 16 ;
+    nn= nn / 16 ;
+    switch (r)
+    {
+      case 10: h = &quot;A&quot; + h; break ;
+      case 11: h = &quot;B&quot; + h; break ;
+      case 12: h = &quot;C&quot; + h; break ;
+      case 13: h = &quot;D&quot; + h; break ;
+      case 14: h = &quot;E&quot; + h; break ;
+      case 15: h = &quot;F&quot; + h; break ;
+      default: h = r + h; break ;
+    }
+  }
+while (nn &gt; 0) ;
+return h ;
+}
+</pre>
+
+
+<!--#include virtual="/common/navigation/footer.inc" -->
+
+</body>
+</html>

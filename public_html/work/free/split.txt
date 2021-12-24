@@ -1,0 +1,83 @@
+#!/usr/local/bin/perl
+# Program name: split.pl
+# Author: Rajiv Pant (Betul)   betul@rajiv.com   http://rajiv.org
+# Version 1.0. August, 1994
+
+# Note: Documentation is at end.
+
+$BigFile = shift ;
+
+$DiskSize = 1_400_000 ;
+
+open (BIGFILE, $BigFile) ;
+
+while (read (BIGFILE, $c, 1))
+  {
+  $SmallFileNumber = int (1 + $byte/$DiskSize) ;
+  if ($SmallFileNumber != $PreviousSmallFileNumber)
+    {
+    print "Creating new file: $BigFile.$SmallFileNumber\n" ;
+    open (SMALLFILE, ">$BigFile.$SmallFileNumber") ;
+    }
+  print SMALLFILE $c ;
+  $byte++ ;
+  $PreviousSmallFileNumber = $SmallFileNumber ;
+  }
+
+close (SMALLFILE) ;
+close (BIGFILE) ;
+
+__END__
+
+This program splits a large file into smaller files so that they fit
+on floppy disks.
+
+The files can be combined on any computer at the other end without any
+special software, including this. The target system could be DOS, Windows,
+MAC, Unix, OS/2, VMS or anything else.
+
+The splitting of the file is done using this program that will run on any
+computer that has perl. Perl is available free for Unix, DOS, Windows, MAC,
+and several other platforms.
+
+This is useful when you need to transport a large file to another location
+and you don't know what tools or operating systems you will have available
+at the other end. Also, it is useful to transport something in smaller
+pieces over a slow modem connection that often gets disconnected.
+
+Let us take an example, You need to transfer a huge postscript image from
+one location to another. You are not sure what operating system or software
+thay have at the other end. (Believe me, it happens sometimes when you do
+not have the option of using a Network transfer, A portable high capacity
+drive, a laptop with a connector, or some other means.)
+
+On your unix machine you run (On a Windows/DOS machine, run split.pl using
+perl by prefixing it with PERL or using associating .pl with perl. For other
+platforms, you need to know how to run perl programs.)
+
+(For DOS, Windows 1.x, 2.x, 3.x, rename BIGPAGE.PS to BPG or something short
+without an extension. split.pl will create files like BPG.1 BPG.2 BPG.3 etc.
+After you transport them and combine them, you can rename the resulting file
+back to BIGPAGE.PS)
+
+split.pl BIGPAGE.PS
+
+This creates smaller files with the name BIGPAGE.PS.1 BIGPAGE.PS.2 ...
+and so on.
+
+To combine them on Windows, use: (Remember to combine them on DOS or Windows
+1.x, 2.x, 3.x, you will be using short names as mentioned above.)
+
+copy/b BIGPAGE.PS.1+BIGPAGE.PS.2+BIGPAGE.PS.3 BIGPAGE.PS
+
+To combine them on Unix:
+
+cat BIGPAGE.PS.1 BIGPAGE.PS.2 BIGPAGE.PS.3 > BIGPAGE.PS
+
+Or, for over 10 files without having to mention each one's name:
+
+cat BIGPAGE.PS.? BIGPAGE.PS.?? > BIGPAGE.PS
+
+
+Note: You can change the $DiskSize value to 340_000 for 360KB disks.
+

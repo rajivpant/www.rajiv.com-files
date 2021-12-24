@@ -1,0 +1,245 @@
+'------------------------------------------------------------------------------
+'
+' File Name: vs97.dsm
+'
+' Version: 1.0 1997/July
+'
+' Description: Macros for Visual Studio '97
+' Language: VBScript.
+'
+' Author Rajiv Pant (Betul)  betul@rajiv.org   http://rajiv.org
+'------------------------------------------------------------------------------
+
+
+
+' The FileType function is taken from the Visual Studio '97
+' Sample Marco file SAMPLE.DSM. I use this function in my macros
+' to be compatible with the Microsoft Samples.
+
+Function FileType (ByVal doc)
+	ext = doc.Name
+	FileType = 0
+	pos = Instr(ext, ".")
+	if pos > 0 then
+		Do While pos <> 1
+			ext = Mid(ext, pos, Len(ext) - pos + 1)
+			pos = Instr(ext, ".")
+		Loop
+		ext = LCase(ext)
+	end if
+	If ext = ".rc" Or ext = ".rc2" Then
+		FileType = 4
+	ElseIf doc.Language = dsCPP Then
+		FileType = 1
+	ElseIf doc.Language = dsJava Then
+		FileType = 2
+	ElseIf doc.Language = dsIDL Then
+		FileType = 3
+	ElseIf doc.Language = dsHTML_IE3 Or doc.Language = dsHTML_RFC1866 Then
+		FileType = 5  
+	ElseIf doc.Language = dsVBSMacro Then ' 
+		FileType = 6  
+	ElseIf ext = ".def" Then
+		FileType = 7
+	Else 
+		FileType = 0
+	End If 
+End Function
+
+
+
+
+' This is an improved version of the CommentOut macro
+' provided in SAMPLE.DSM. This one comments out Java
+' Source code by prepending a // to each line. This is
+' the right way to comment out Java source because
+' Java does not allow nested comments using /* */.
+
+' The UnComment macro will remove these comment tags
+' restoring the source exactly as it was.
+
+Sub CommentOutImproved ()
+'DESCRIPTION: Comments out a selected block of text.
+	Dim win
+	set win = ActiveWindow
+	if win.type <> "Text" Then
+	  MsgBox "This macro can only be run when a text editor window is active."
+	else
+		TypeOfFile = FileType(ActiveDocument)  
+
+		If TypeOfFile > 0 And TypeOfFile < 5 And TypeOfFile <> 2 Then    ' C, C++ Source
+	
+			ActiveDocument.Selection = "/*" + ActiveDocument.Selection + "*/"
+
+		' TO DO: HTML CommentOut needs to modify the < and > characters inside
+		' in order to prevent nested comments.
+
+ 		ElseIf TypeOfFile = 5 Then	' HTML
+
+			CommentBegin	= "<!-- "
+			CommentEnd		= " -->"
+
+			' put a <!-- before each line.
+			' put a --> after each line.
+			' substitute each &gt; with &gt;&gt;
+			' substitute each > with &gt;
+
+			StartLine = ActiveDocument.Selection.TopLine
+			EndLine = ActiveDocument.Selection.BottomLine
+
+			If EndLine < StartLine Then
+				Temp = StartLine
+				StartLine = EndLine
+				EndLine = Temp
+			End If
+
+
+
+			' If selection does not span multiple lines.
+
+			If EndLine = StartLine Then
+				ActiveDocument.Selection = _
+					CommentBegin + _
+					ActiveDocument.Selection + _
+					CommentEnd
+
+
+			Else 
+				For i = StartLine To EndLine
+					ActiveDocument.Selection.GoToLine i
+					ActiveDocument.Selection.SelectLine
+
+					ActiveDocument.Selection = _
+						CommentBegin + _
+						ActiveDocument.Selection + _
+						CommentEnd
+				Next
+			End If
+
+
+		ElseIf TypeOfFile = 2 Or TypeOfFile = 6 Or TypeOfFile = 7 Then
+
+			'There is no group comment like there is in the other file types, 
+			'so we need to iterate through each line, and prepend a ' to the line.
+			'Also, because VBS/DEF does not have a 'end the comment at this 
+			'particular column' delimiter, entire lines of code must be 
+			'commented out, not sections.
+
+
+			If TypeOfFile = 2 Then		' Java Source
+				CommentType = "// "
+
+			ElseIf TypeOfFile = 6 Then	' VBScript Macro
+				CommentType = " ' "
+
+			Else						' .def file
+				CommentType = " ; "
+			End If
+     
+			StartLine = ActiveDocument.Selection.TopLine
+			EndLine = ActiveDocument.Selection.BottomLine
+
+			If EndLine < StartLine Then
+				Temp = StartLine
+				StartLine = EndLine
+				EndLine = Temp
+			End If
+
+			If EndLine = StartLine Then
+				ActiveDocument.Selection = CommentType + ActiveDocument.Selection
+
+			Else 
+				For i = StartLine To EndLine
+					ActiveDocument.Selection.GoToLine i
+					ActiveDocument.Selection.SelectLine
+					ActiveDocument.Selection = CommentType + _
+						ActiveDocument.Selection
+				Next
+			End If
+		Else
+			MsgBox("Unable to comment out the highlighted text" + vbLf + _
+					"because the file type was unrecognized." + vbLf + _
+					"If the file has not yet been saved, " + vbLf + _
+					"please save it and try again.")
+		End If
+	End If
+End Sub
+
+
+
+
+
+Sub UnCommentOutImproved ()
+'DESCRIPTION: Un Comments out a selected block of text
+'	commented out using the CommentOutImproved macro.
+
+	Dim win
+	set win = ActiveWindow
+	if win.type <> "Text" Then
+	  MsgBox "This macro can only be run when a text editor window is active."
+	else
+		TypeOfFile = FileType(ActiveDocument)  
+
+		If TypeOfFile > 0 And TypeOfFile < 5 And TypeOfFile <> 2 Then    ' C, C++ Source
+	
+			' ActiveDocument.Selection = "/*" + ActiveDocument.Selection + "*/"
+			MsgBox("Uncommenting for this type of file" + vbLf + _
+					"is not implemented yet.")
+
+		' TO DO: HTML CommentOut needs to modify the < and > characters inside
+		' in order to prevent nested comments.
+
+		ElseIf TypeOfFile = 5 Then
+			' ActiveDocument.Selection = "<!-- " + ActiveDocument.Selection + " -->"
+			MsgBox("Uncommenting for HTML files" + vbLf + _
+					"is not implemented yet.")
+
+		ElseIf TypeOfFile = 2 Or TypeOfFile = 6 Or TypeOfFile = 7 Then
+
+			'There is no group comment like there is in the other file types, 
+			'so we need to iterate through each line, and prepend a ' to the line.
+			'Also, because VBS/DEF does not have a 'end the comment at this 
+			'particular column' delimiter, entire lines of code must be 
+			'commented out, not sections.
+
+
+			If TypeOfFile = 2 Then		' Java Source
+				CommentType = "// "
+
+			ElseIf TypeOfFile = 6 Then	' VBScript Macro
+				CommentType = " ' "
+
+			Else						' .def file
+				CommentType = " ; "
+			End If
+     
+			StartLine = ActiveDocument.Selection.TopLine
+			EndLine = ActiveDocument.Selection.BottomLine
+
+			If EndLine < StartLine Then
+				Temp = StartLine
+				StartLine = EndLine
+				EndLine = Temp
+			End If
+
+			If EndLine = StartLine Then
+					ActiveDocument.Selection = _
+						Mid (ActiveDocument.Selection, Len (CommentType))
+
+			Else 
+				For i = StartLine To EndLine
+					ActiveDocument.Selection.GoToLine i
+					ActiveDocument.Selection.SelectLine
+
+					ActiveDocument.Selection = _
+						Mid (ActiveDocument.Selection, Len (CommentType))
+				Next
+			End If
+		Else
+			MsgBox("Unable to Un-comment out the highlighted text" + vbLf + _
+					"because the file type was unrecognized." + vbLf + _
+					"If the file has not yet been saved, " + vbLf + _
+					"please save it and try again.")
+		End If
+	End If
+End Sub

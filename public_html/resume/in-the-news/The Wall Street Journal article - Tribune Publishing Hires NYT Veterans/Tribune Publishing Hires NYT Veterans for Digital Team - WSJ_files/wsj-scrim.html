@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<!-- saved from url=(0881)http://cdn.cxpublic.com/wsj-scrim.html?ref=http%3A%2F%2Fwww.wsj.com%2Farticles%2Ftribune-publishing-hires-nyt-veterans-for-digital-team-1447851600#media=html&sid=9222318613852486900&width=100%25&height=0&meta=%7B%22hasAd%22%3A%22n%22%2C%22referrer%22%3A%22googlecom%22%2C%22retina%22%3A%22y%22%2C%22subscriber%22%3A%22nonsubscriber%22%2C%22userExp%22%3A%22google_fcf%22%2C%22template%22%3A%22full%22%2C%22access%22%3A%22paid%22%2C%22section%22%3A%22Business%22%2C%22edition%22%3A%22naus%22%2C%22bucket%22%3A4%2C%22hasUid%22%3A%22n%22%2C%22ctp%22%3A%22xp02DV5%22%2C%22compete%22%3A%22other%22%2C%22extra3%22%3A%22DV5%22%2C%22ckeA%22%3A11%7D&resizeToContentSize=true&ctx=http%3A%2F%2Fwww.wsj.com%2Farticles%2Ftribune-publishing-hires-nyt-veterans-for-digital-team-1447851600&usi=ih4tejm0weecfhdi&rnd=877449980&prnd=imbbv203my586iet&tzo=240&parentElementId=cxWidget_0.7063011913560331 -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script async="" type="text/javascript" id="cXJsonpCBimbbv3om8zxunen3script" src=""></script>
+    <title>Cxense - WSJ Scrim Offer</title>
+    <style type="text/css">
+        html{background-color: transparent}
+        body {margin:0; padding:0;background-color: transparent}
+        #cx-scrim-overlay{width:100%; height:100%; position:absolute;}
+        #cx-scrim{position:fixed;top:50%; left:50%;margin-left:-310px; margin-top:-232px;width:620px; height:432px;opacity:1;background:transparent}
+        #cx-scrim .close-btn{position:relative;background:transparent; cursor: pointer; width:32px; height:32px;left: 603px;top: 15px;}
+        .cx-scrim-creative, .cx-scrim-creative img{width:620px; height:400px;clear:right}
+
+        /*hide four Unit by default */
+        .cx-scrim-creative .four{display:none}
+
+        @media all and (max-width: 635px) and (min-width:120px) {
+            .cx-scrim-creative .eight{display:none}
+            .cx-scrim-creative .four{display:block}
+            #cx-scrim{position:fixed;top:50%; left:50%;;width:300px; height:282px; margin-left: -150px;margin-top: -160px;}
+            .cx-scrim-creative, .cx-scrim-creative img{width:300px;height:250px;}
+            #cx-scrim .close-btn{left: 268px;top: -4px;}
+        }
+
+        .template {display: none;}
+
+    </style>
+
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="cx.js"></script>
+
+
+</head>
+
+<body xmlns:tmp="javascript:">
+
+<script type="text/javascript">
+
+    function getContent(ad, key, defaultValue) {
+        if (ad.creative && ad.creative.content && ad.creative.content.length) {
+            var contents = ad.creative.content;
+            for (var k = 0; k < contents.length; k++) {
+                var content = contents[k];
+                if (content.key === key) {
+                    return content.value[0];
+                }
+            }
+        }
+        return defaultValue || '';
+    }
+
+    function getImage(ad, key) {
+        var posts = [''];
+
+        if (isRetina) {
+            posts = [' retina', ''];
+        }
+
+        for (var ix in posts) {
+            var p = posts[ix];
+
+            if (ad.creative && ad.creative.images && ad.creative.images.length) {
+                var images = ad.creative.images;
+                var lowerKey = key.toLowerCase();
+                for (var k = 0; k < images.length; k++) {
+                    var image = images[k];
+
+                    var actualKey = image.key.toLowerCase();
+
+                    if (actualKey === lowerKey + p) {
+                        return image.source;
+                    }
+                }
+            }
+        }
+
+        return '';
+    }
+
+    function getAd(data) {
+        if (data && data.searchResult && data.searchResult.spaces && data.searchResult.spaces[0] && data.searchResult.spaces[0].ads) {
+            var adSpace = data.searchResult.spaces[0];
+            if (adSpace.ads.length >= 1) {
+                return adSpace.ads[0];
+            }
+        }
+        return null;
+    }
+
+    function validateRGBAColor(color) {
+
+        var colParts =  color.replace(/\(|\)| /g,'').split(',');
+
+        if (colParts.length != 4 ) {
+            return false;
+        } else {
+            for (var i = 0; i < colParts.length; ++i) {
+                var v = parseFloat(colParts[i]);
+                var max = i == 3 ? 1 : 255;
+                if ((v < 0) || (v > max)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    function onGotScrim(data) {
+        var ad = getAd(data);
+
+        if (ad) {
+            cX.library.renderTemplate('adsTemplate', 'targetElement', ad);
+
+            var defaultBackground = '(0,0,0,0.8)';
+
+            var backgroundColor = getContent(ad, 'Background Color', defaultBackground);
+
+            if (!validateRGBAColor(backgroundColor)) {
+                backgroundColor = defaultBackground;
+            }
+
+            $('#cx-scrim-overlay').css({'background': "rgba" + backgroundColor});
+
+            cX.postMessageToParent('method=cxCandyResize&contentHeight=100%25&type=scrim', '*');
+            cX.postMessageToParent('method=cxCandyShow&type=scrim', '*');
+
+            cX.setSiteId('9222334397379502889');
+            meta.adCreative = ad.creative.id;
+            cX.setCustomParameters(meta);
+
+            var muteTag = getContent(ad, 'Mute Tag', null);
+            if (muteTag) {
+                cX.setUserProfileParameters({"muteTag" : muteTag});
+            }
+
+            cX.sendPageViewEvent({ 'location': 'http://scrim.wsj.com' });
+
+            $( ".close-btn" ).click(function(event){
+                $('#cx-scrim-overlay').fadeOut();
+                cX.postMessageToParent('method=cxUserAction&type=wsjscrimclose', '*');
+                cX.postMessageToParent('method=cxCandyHide&type=scrim', '*');
+                return false;
+            });
+
+            $( "#cx-scrim-overlay" ).click(function(event){
+                $('#cx-scrim-overlay').fadeOut();
+                cX.postMessageToParent('method=cxUserAction&type=wsjscrimsdismiss', '*');
+                cX.postMessageToParent('method=cxCandyHide&type=scrim', '*');
+            });
+        }
+    }
+
+
+
+
+</script>
+
+<div id="targetElement">
+
+</div>
+
+<div id="adsTemplate" class="template">
+    <!--%
+    var ad = data;
+    var defaultCreative = getImage(ad, '620 default'); // '16/12/8 Image');
+    //var defaultCreative = getImage(ad, '620 retina'); // '16/12/8 Image Retina');
+    var smallCreative = getImage(ad, '300 default'); // '4 Image');
+    //var smallCreative = getImage(ad, '300 retina'); // '4 Image Retina');
+
+    %-->
+    <div tmp:id="cx-scrim-overlay">
+        <div tmp:id="cx-scrim">
+            <div tmp:class="close-btn">
+                <img tmp:src="http://www.wsj.com/img/cxense/icon-close2x.png" width="32px" height="32px" title="Close">
+            </div>
+            <div tmp:class="cx-scrim-creative">
+                <a tmp:id="{{cX.clickTracker(ad.clickUrl)}}" tmp:href="{{ad.creative.destinationUrl}}" tmp:target="_blank">
+                    <div class="eight"><img tmp:src="{{defaultCreative}}" tmp:title="" tmp:alt=""></div>
+                    <div class="four"><img tmp:src="{{smallCreative}}" tmp:title="" tmp:alt=""></div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function getAdSpaceId() {
+        var spaces = {};
+
+        if ((host.indexOf('graphics.wsj.com') > -1) || (host.indexOf('graphicsdev.dowjones.net') > -1)){
+            spaces = {
+                'naus': '0000000162a32831'
+            };
+        } else if (host.indexOf('barrons.com') > -1) {
+            spaces = {
+                'naus': '0000000162576564',
+                'asia': '0000000162576573'
+            };
+        }else if (host.indexOf('wsjplus.com') > -1) {
+            spaces = {
+                'naus': '000000016247d60f'
+            };
+        } else {
+            spaces = {
+                "naus": "000000016232ba4f",
+                "europe": "00000001627e705a",
+                "europetr": "00000001627e70ec",
+                "asia": "00000001627e7082",
+                "asiaindia": "00000001627e70b9",
+                "asiakr": "00000001627e70e5",
+                "asiajp": "00000001627e70dd",
+                "asiaindo": "00000001627e70d5",
+                "asiacn": "00000001627e70af",
+                "europeuk": "00000001627e70f3",
+                "nabr": "00000001627e7093"
+
+            };
+        }
+
+        if (spaces[meta.edition]) {
+            return spaces[meta.edition];
+        } else {
+            return spaces.naus;
+        }
+    }
+
+    var meta = {};
+
+    var referrer = document.referrer || '';
+    var host = referrer.replace(/^https?:\/\//, '').split('/')[0];
+
+    var args = cX.library.parseHashArgs();
+    if (args.meta) {
+        meta = JSON.parse(args.meta);
+    }
+
+    if (meta.host) {
+        host = meta.host;
+    }
+
+    var adSpaceId = getAdSpaceId();
+
+    var isRetina = meta.retina === 'y';
+
+    var kTarget = 'wsj' + meta.subscriber;
+
+    if (meta.ctp) {
+        kTarget += ' wsjctp' + meta.ctp.toLowerCase();
+    }
+
+    if (meta.navSource) {
+        kTarget += ' wsjmod' + meta.navSource;
+    }
+
+    if (typeof meta.bucket !== 'undefined') {
+        kTarget += ' wsjgroup' + meta.bucket;
+    }
+
+    if (meta.userExp) {
+        kTarget += ' wsjux' + meta.userExp.replace(/_| /g, '');
+    }
+    if (meta.k) {
+        kTarget += ' ' + meta.k;
+    }
+
+
+    cX.insertAdSpace({
+        adSpaceId: adSpaceId,
+        siteId : '9222318613852486900',
+        renderFunction: onGotScrim,
+        adUnitWidth: 620,
+        adUnitHeight: 400,
+        initialHorizontalAdUnits: 1,
+        initialVerticalAdUnits: 1,
+        k: kTarget
+    });
+
+</script>
+
+</body></html>

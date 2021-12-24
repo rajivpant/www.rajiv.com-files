@@ -1,0 +1,193 @@
+package Text::numbers ;
+
+# Developed by Rajiv Pant (Betul)  betul@rajiv.org   http://rajiv.org/
+
+
+use strict ;
+use integer ;
+
+
+
+$Text::numbers::revision = '$Id: numbers_as_words.pm,v 1.0 1997/09/13 16:51:10 betul Exp betul $';
+
+$Text::numbers::VERSION = '1.0' ;
+
+'version' => <<'END_OF_FUNC',
+sub version { return $VERSION ; }
+END_OF_FUNC
+
+$Text::numbers::AUTHOR = 'Rajiv Pant (Betul)  betul@rajiv.org   http://rajiv.org/' ;
+
+
+
+sub as_words
+{
+
+
+my $NEGATIVE = 'negative' ;
+
+# TO DO: In some locales, the term used is "minus".
+#	As in "minus two point three degrees centigrade".
+
+
+my $ZERO = 'zero' ;
+
+my @ONES_AND_TEENS = ( '', qw (
+
+one two three four five six seven eight nine
+ten eleven twelve thirteen fourteen fifteen
+sixteen seventeen eighteen nineteen
+
+) ) ;
+
+
+my @TENS = qw (
+
+twenty thirty forty fifty sixty seventy eighty ninety
+
+) ;
+
+
+my $HUNDRED = 'hundred' ;
+
+my @POWERS_OF_TEN = qw (
+
+thousand million billion trillion quadrillion quintillion
+
+) ;
+
+
+
+my $number = shift ;
+
+
+if ($number == 0)
+{
+	return $ZERO ;
+}
+
+
+my $result = '' ;
+
+
+if ($number < 0)
+{
+	$result .= $NEGATIVE . ' ' ;
+	$number = - $number ;
+}
+
+
+my $place = log10 ($number) / 3 ;
+
+
+while ($place >= 0)
+{
+
+	my $h = ten_raised_to_power ($place * 3) ;
+
+	my $hundreds = $number / $h ;
+	
+	if ($hundreds != 0)
+	{
+		$number -= $h * $hundreds ;
+
+		$h = $hundreds / 100 ;
+		
+		if ($h != 0)
+		{
+			$hundreds -= $h * 100 ;
+			$result .= $ONES_AND_TEENS[$h] . ' ' . $HUNDRED ;
+
+		} # end if
+		
+		if ($hundreds != 0)
+		{
+			if ($h != 0) { $result .= ' ' } ;
+			
+			if ($hundreds < 20)
+			{
+				$result .= $ONES_AND_TEENS[$hundreds] ;
+
+			} # end if ; begin else
+
+			else
+			{
+				$h = $hundreds / 10 ;
+				
+				if ($h != 0)
+				{
+					$hundreds -= $h * 10 ;
+					$result .= $TENS[$h - 2] ;
+					
+
+				} # end if
+				
+				if ($hundreds != 0)
+				{
+					$result .= '-' . $ONES_AND_TEENS[$hundreds] ;
+				
+				} # end if
+				
+			} # end else
+			
+		} # end if
+		
+
+
+		if ($place != 0)
+		{
+			$result .= ' ' . $POWERS_OF_TEN[$place - 1] ;
+			
+			if ($number != 0) { $result .= ', ' ; }
+		
+		} # end if
+		
+	} # end if
+
+	--$place ;
+
+} # end while
+
+return $result ;
+
+} # end sub as_words
+
+
+
+
+
+
+# Some Mathematical Functions
+
+
+sub ten_raised_to_power
+{
+	my $power = shift ;
+	my $result ;
+
+	for ($result = 1 ; --$power >= 0 ; $result *= 10) { ; }
+
+	return $result ;
+
+} # end sub ten_raised_to_power
+
+
+
+# Returns the log to base 10 of the given number ;
+
+sub log10
+{
+	my $given_number = shift ;
+	my $power ;
+	
+	for ($power = 9 ; ( $given_number / ten_raised_to_power($power) ) == 0 ;
+		--$power ) { ; }
+
+	return $power ;	
+	
+} # end sub log10
+
+
+
+1 ; # To make the package return a true value.
+

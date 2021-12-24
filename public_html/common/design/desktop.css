@@ -1,0 +1,185 @@
+/*
+file_name: desktop.css
+url: http://www.rajiv.com/design/navigation/desktop.css
+
+purpose: This is the stylesheet to be used for display on the screen of desktop computers
+and compatible devices. It is used with web pages on www.rajiv.com.
+
+author: Rajiv Pant
+*/
+
+/*  general section -- begin */
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #FFFFFF;
+	color: #000000;
+	font-family: "Verdana";
+}
+
+div,form,fieldset,th,td {
+	margin: 0;
+	padding: 0;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+img.alignright {float:right; margin:0 0 1em 1em}
+img.alignleft {float:left; margin:0 1em 1em 0}
+img.aligncenter {display: block; margin-left: auto; margin-right: auto}
+a img.alignright {float:right; margin:0 0 1em 1em}
+a img.alignleft {float:left; margin:0 1em 1em 0}
+a img.aligncenter {display: block; margin-left: auto; margin-right: auto}
+
+
+fieldset,img {
+	border: 0;
+}
+
+q:before,q:after {
+	content: '';
+}
+
+abbr,acronym {
+	border: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	clear: none;
+}
+
+a:link {	/* unvisited links */
+	text-decoration: none;
+}
+
+a:visited {	/* visited links   */
+	text-decoration: none;
+}
+
+a:hover {	/* user hovers     */
+	text-decoration: underline;
+}
+
+a:active {	/* active links    */
+	text-decoration: underline;
+}
+
+/*  general section -- end */
+
+
+/* for the pull down menu -- begin */
+
+div.main-pull-down-menu {
+	opacity: 1;
+	background-color: #C3D9FF;
+	padding: 0 0 0 0;
+//	font-size: smaller;
+}
+
+.main-pull-down-menu ul {
+	background-color: #C3D9FF;
+	margin: 0;
+	padding: 0 0 25px 0;
+	list-style-type: none;	
+}
+
+.main-pull-down-menu li  {
+	background-color: #C3D9FF;
+//	margin: 0 -0px 0 0;
+	padding: 0 0 0 25px;
+//	border: 1px solid black;
+	color: black;
+	text-decoration: none;
+	float: left;
+}
+
+.main-pull-down-menu a {
+	text-decoration: none;
+	display: block;
+	color: #000000;
+//	padding: 0 5px 0 5px;
+	white-space: nowrap;
+}
+
+.main-pull-down-menu a:hover {
+	text-decoration: none;
+	color: #FFFFFF;
+//	background-color: #E8EEF7;
+	background-color: #000033;
+	white-space: nowrap;
+}
+
+.main-pull-down-menu li ul {
+	display: none;
+}
+
+.main-pull-down-menu li:hover ul, #nav li.sfhover ul {
+	visibility: visible;
+	display: block;
+	position:absolute;
+	z-index:1;
+	width:240px;
+	padding: 0;
+	margin: 0;
+	border:1px solid black;
+}
+
+.main-pull-down-menu li li {
+//	border: none;
+	width:230px;
+	padding: 2px 2px 2px 4px;
+	}	
+
+.main-pull-down-menu li li a {
+}
+
+
+/* for the pull down menu -- end */
+
+
+/* for the page header -- begin */
+#pageheader {
+	margin: 0;
+	background-color: #C3D9FF;
+}
+/* for the page header -- end */
+
+/* for the page footer -- begin */
+#pagefooter {
+	margin: 0;
+	text-align: center;
+//	font-size: smaller;
+	background-color: #C3D9FF;
+	padding-left: 10px;
+}
+/*  for the page footer -- end */
+
+
+/* for the page content area -- begin */
+#pagecontentwrapper {
+	margin: 0;
+	border: 0;
+
+	/*	
+	padding-left: 10px;
+	padding-right: 10px;
+	background-color: #C3D9FF;
+	*/
+}
+#pagecontent {
+	margin: 0;
+	border: 0;
+	padding-left: 10px;
+	padding-right: 10px;
+	background-color: #FFFFFF;
+}
+/* for the page content area -- end */
+
+
+#home_page_main_container {
+	height: 500px;
+}

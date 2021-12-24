@@ -1,0 +1,41 @@
+<html>
+<head>
+
+<meta http-equiv="refresh" content="3; URL=<%=Request.ServerVariables("PATH_INFO")%>">
+</head>
+
+<body bgcolor="#ffffff">
+
+<center>
+
+<% Randomize %>
+
+<%
+n = int (rnd * 20 + 10)
+for i = 1 to n
+%>
+
+<font
+size=<% s = int (rnd * 9 + 1) %><% =s %>
+color="#<% for j = 1 to 6 %><% c = hex ( int (rnd * 16 + 1) ) %><% =c %><% next %>"
+>
+Cool
+</font>
+
+<% next %>
+
+</center>
+
+<p>
+(<a href="view_source.asp?source=<%=Request.ServerVariables("SCRIPT_NAME")%>">
+view the actual .ASP source code</a>)
+
+<hr>
+Programmed by
+<a href="http://rajiv.org">Rajiv Pant</a> (<a href="http://rajiv.org">Betul</a>)
+<a href="mailto:betul@rajiv.com">betul@rajiv.com</a>
+
+
+</body>
+</html>
+

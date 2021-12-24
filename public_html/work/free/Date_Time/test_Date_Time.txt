@@ -1,0 +1,89 @@
+#!/usr/local/bin/perl
+
+# Program Name: test_Date_Time
+# Author: Rajiv Pant (Betul) 
+# Version 1.0. 1996/May/28
+
+# Description: program to demonstrate use of Date_Time.pm perl module
+
+ 
+BEGIN { unshift @INC, ('/path/where/dateandtime/library/is') ; }
+
+require 5.002 ;
+use strict ;
+use Date_Time ;
+
+my $date	= new Date_Time ;
+
+#my $date_o	= new Date_Time ;
+#my $date_o	= new Date_Time ('yesterday') ;
+#my $date_o	= new Date_Time ('tomorrow') ;
+#my $date_o	= new Date_Time ('other day 2') ;
+#my $date_o	= new Date_Time ('other day -3') ;
+#my $date_o	= new Date_Time ('other day -19') ;
+my $date_o	= new Date_Time ('other day -300') ;
+#my $date_o	= new Date_Time ('other timestamp -912324') ;
+
+print "version ................ ", $date->version , "\n\n" ;
+
+print 'Today is ............... ', $date->date_format_1, "\n" ;
+
+print "year ................... ", $date->year , "\n" ;
+print "year_short ............. ", $date->year_short , "\n" ;
+
+print "month .................. ", $date->month , "\n" ;
+print "month_name ............. ", $date->month_name, "\n" ;
+print "month_number ........... ", $date->month_number , "\n" ;
+print "month_number_short ..... ", $date->month_number_short , "\n" ;
+
+print "nth_day_of_year ........ ", $date->nth_day_of_year , "\n" ;
+
+print "day_of_month ........... ", $date->day_of_month , "\n" ;
+print "today .................. ", $date->today , "\n" ;
+print "day_of_month_short ..... ", $date->day_of_month_short , "\n" ;
+print "today_short ............ ", $date->today_short , "\n" ;
+
+print "nth_day_of_week ........ ", $date->nth_day_of_week , "\n" ;
+print "day_of_week ............ ", $date->day_of_week , "\n" ;
+print "day_of_week_name ....... ", $date->day_of_week_name , "\n" ;
+print "full_day_of_week ....... ", $date->full_day_of_week , "\n" ;
+#print "yesterday_of_week ...... ", $date->yesterday_of_week , "\n" ;
+#print "full_yesterday_of_week .. ", $date->full_yesterday_of_week , "\n" ;
+
+print "hh ..................... ", $date->hh, "\n" ;
+print "mm ..................... ", $date->ss , "\n" ;
+print "ss ..................... ", $date->mm , "\n" ;
+
+
+
+
+print "\n" ;
+print 'Date used below is ..... ', $date_o->date_format_1, "\n" ;
+
+print "year ................... ", $date_o->year , "\n" ;
+print "year_short ............. ", $date_o->year_short , "\n" ;
+
+print "month .................. ", $date_o->month , "\n" ;
+print "month_name ............. ", $date_o->month_name, "\n" ;
+print "month_number ........... ", $date_o->month_number , "\n" ;
+print "month_number_short ..... ", $date_o->month_number_short , "\n" ;
+
+print "nth_day_of_year ........ ", $date_o->nth_day_of_year , "\n" ;
+
+print "day_of_month ........... ", $date_o->day_of_month , "\n" ;
+print "today .................. ", $date_o->today , "\n" ;
+print "day_of_month_short ..... ", $date_o->day_of_month_short , "\n" ;
+print "today_short ............ ", $date_o->today_short , "\n" ;
+
+print "nth_day_of_week ........ ", $date_o->nth_day_of_week , "\n" ;
+print "day_of_week ............ ", $date_o->day_of_week , "\n" ;
+print "day_of_week_name ....... ", $date_o->day_of_week_name , "\n" ;
+print "full_day_of_week ....... ", $date_o->full_day_of_week , "\n" ;
+#print "yesterday_of_week ...... ", $date_o->yesterday_of_week , "\n" ;
+#print "full_yesterday_of_week .. ", $date_o->full_yesterday_of_week , "\n" ;
+
+print "hh ..................... ", $date_o->hh, "\n" ;
+print "mm ..................... ", $date_o->ss , "\n" ;
+print "ss ..................... ", $date_o->mm , "\n" ;
+
+print 'Date used above is ..... ', $date_o->date_format_1, "\n" ;

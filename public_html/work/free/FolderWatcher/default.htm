@@ -1,0 +1,73 @@
+
+
+<p><font size="+2">Update: 2006-11-18</font>
+FolderWatcher is moving to the
+<a href="http://www.cofax.org/">Cofax Project</a>. FolderWatcher was developed
+in the mid-1990s when Java had just been released. Since then, Java technology
+has progressed far, leaving the FolderWatcher code behind, but there has still
+been demand for FolderWatcher. So it is being revived and moved to the Cofax
+project.
+</p>
+
+<p><font size="+2">FolderWatcher Version 1.5</font>
+runs as as a Unix Daemon or Windows NT service and
+watches a specified folder for new incoming files or folders. As new files or folders
+appear inside the folder, it uses dynamically loaded handler classes to take action on
+those files and folders. This is often used to create <b>ftp drop folders</b> where
+whenever new files come in, they are given to a processing program. This can also be used
+for content replication across mirrorred servers. When one or more files in a watched
+folder change, the handler class called can automatically copy them over to the mirror
+servers. (Source code and instructions on installing it as a WinNT service provided.)</p>
+
+<p><a href="FolderWatcher_v1.5.zip">Download it here.</a> 
+Coming soon: More examples for common FTP
+drop folder uses.</p>
+
+<p>Windows Service related files
+<ul>
+<li>FolderWatcherService.exe (A Windows NT 
+Service. This is a wrapper that runs one instance of FolderWatcher to watch one 
+folder and run a .cmd file on the files as they arrive in the watched 
+folder.)<br />
+<li>FolderWatcher.ini
+(Initialization file used by the Windows 
+NT Service to know which folder to watch and which batch (.cmd) file to run on 
+files arriving on that folder.)</li>
+<li>test.cmd (A sample batch file used to process incoming file.)</li>
+<li>README.txt</li>
+<li>FolderWatcherService.class</li>
+<li>RunCmdFileHandler.class (The 
+class used to run Windows NT .cmd batch files to process each file as it 
+arrives. Only required if using as a service on NT)</li>
+</ul>
+
+Java Classes and related files
+<ul>
+<li>FolderWatcher.class</li>
+<li>Handler.class</li>
+<li>Start.class</li>
+<li>Util.class</li>
+<li>SampleShowHandler.class (A sample 
+handler that just displays the names of new or modified files as they appear in 
+the folder)</li>
+<li>RunLikeExe.cmd (A 
+WinNT command prompt script to run FolderWatcher interactively like you would 
+run a .exe program. The handler class used is SampleShowHandler. I use this for 
+testing a new handler class.</li>
+</ul>
+
+<p>Source Code
+<ul>
+<li>FolderWatcher.java</li>
+<li>Handler.java</li>
+<li>Start.java</li>
+<li>Util.java</li>
+<li>FolderWatcherService.java</li>
+<li>RunCmdFileHandler.java</li>
+<li>SampleShowHandler.java</li>
+<li>MAKEFILE (The MAKEFILE used by the "nmake.exe" to build the Windows service.)</li>
+</ul>
+</p>
+Please note that the COM.rajiv packages have been renamed to com.rajiv.
+It seems that most people use lowercase "com" in their java package names
+rather than uppercase "COM" as Sun originally recommended.)

@@ -1,0 +1,71 @@
+<xml xmlns:v="urn:schemas-microsoft-com:vml"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:p="urn:schemas-microsoft-com:office:powerpoint"
+ xmlns:oa="urn:schemas-microsoft-com:office:activation">
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="5"/>
+ </o:shapelayout><p:colorscheme
+  colors="#ffffff,#000000,#b2b2b2,#000000,#b2b2b2,#808080,#969696,#4d4d4d"/>
+ <v:background id="_x0000_s5121" o:bwmode="white" o:targetscreensize="800,600">
+  <v:fill src="master04_image001.jpg" o:title="iceberg_bg" color2="gray [5]"
+   type="frame"/>
+ </v:background><p:shaperange id="_x0000_m5122">
+  <v:shapetype id="_x0000_m5122" style='position:absolute;left:54pt;top:42pt;
+   width:612pt;height:84pt;v-text-anchor:middle' coordsize="21600,21600"
+   o:master="" o:spt="1" path="m,l,21600r21600,l21600,xe" filled="f" stroked="f">
+   <v:fill o:detectmouseclick="t"/>
+   <v:stroke joinstyle="miter" o:forcedash="t"/>
+   <v:path gradientshapeok="t" o:connecttype="rect"/>
+   <o:lock v:ext="edit" grouping="t"/>
+   <p:placeholder type="title"/>
+  </v:shapetype></p:shaperange>
+ <p:shaperange id="_x0000_m5123">
+  <v:shapetype id="_x0000_m5123" style='position:absolute;left:54pt;top:198pt;
+   width:612pt;height:282pt' coordsize="21600,21600" o:master="" o:spt="1"
+   path="m,l,21600r21600,l21600,xe" filled="f" stroked="f">
+   <v:fill o:detectmouseclick="t"/>
+   <v:stroke joinstyle="miter" o:forcedash="t"/>
+   <v:path gradientshapeok="t" o:connecttype="rect"/>
+   <o:lock v:ext="edit" grouping="t"/>
+   <p:placeholder type="body" position="1"/>
+  </v:shapetype></p:shaperange>
+ <p:shaperange id="_x0000_s5124">
+  <v:shapetype id="_x0000_s5124" style='position:absolute;left:54pt;top:492pt;
+   width:150pt;height:36pt' coordsize="21600,21600" o:master="" o:spt="1"
+   path="m,l,21600r21600,l21600,xe" filled="f" stroked="f">
+   <v:fill o:detectmouseclick="t"/>
+   <v:stroke joinstyle="miter" o:forcedash="t"/>
+   <v:path gradientshapeok="t" o:connecttype="rect"/>
+   <o:lock v:ext="edit" grouping="t"/>
+   <p:placeholder type="dateTime" position="2" size="half"/>
+  </v:shapetype></p:shaperange>
+ <p:shaperange id="_x0000_s5125">
+  <v:shapetype id="_x0000_s5125" style='position:absolute;left:246pt;top:492pt;
+   width:228pt;height:36pt' coordsize="21600,21600" o:master="" o:spt="1"
+   path="m,l,21600r21600,l21600,xe" filled="f" stroked="f">
+   <v:fill o:detectmouseclick="t"/>
+   <v:stroke joinstyle="miter" o:forcedash="t"/>
+   <v:path gradientshapeok="t" o:connecttype="rect"/>
+   <o:lock v:ext="edit" grouping="t"/>
+   <p:placeholder type="footer" position="3" size="quarter"/>
+  </v:shapetype></p:shaperange>
+ <p:shaperange id="_x0000_s5126">
+  <v:shapetype id="_x0000_s5126" style='position:absolute;left:516pt;top:492pt;
+   width:150pt;height:36pt' coordsize="21600,21600" o:master="" o:spt="1"
+   path="m,l,21600r21600,l21600,xe" filled="f" stroked="f">
+   <v:fill o:detectmouseclick="t"/>
+   <v:stroke joinstyle="miter" o:forcedash="t"/>
+   <v:path gradientshapeok="t" o:connecttype="rect"/>
+   <o:lock v:ext="edit" grouping="t"/>
+   <p:placeholder type="slideNumber" position="4" size="quarter"/>
+  </v:shapetype></p:shaperange>
+ <p:shaperange id="FormatShape">
+  <v:rect id="FormatShape" o:spid="_x0000_s5127" style='position:absolute;
+   left:-105pt;top:134pt;width:93pt;height:65pt;visibility:hidden;
+   mso-wrap-style:none;v-text-anchor:middle' filled="f" strokecolor="black [3]"
+   strokeweight="8pt">
+   <v:fill src="master04_image002.jpg" o:title="SKIING" type="frame"/>
+   <v:stroke linestyle="thinThick"/>
+   <v:shadow color="#b2b2b2 [2]"/>
+  </v:rect></p:shaperange>
+</xml>

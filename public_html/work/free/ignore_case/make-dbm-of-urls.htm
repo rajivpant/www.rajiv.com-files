@@ -1,0 +1,191 @@
+<html>
+<head>
+<!--#include virtual="/common/navigation/meta.inc" -->
+</head>
+<body  topmargin="0" leftmargin="0" margintop="0" marginleft="0">
+
+<!--#include virtual="/common/navigation/header.inc" -->
+
+<pre>
+#!/usr/local/bin/perl
+
+# Program name: make-dbm-of-urls
+# Installed in: /inet/programs/
+
+# Version: 1.0 1996/Sep/22
+
+# Author: Rajiv Pant (Betul)  betul@rajiv.com  http://rajiv.org
+# &amp; Ranjit Bhatnagar  ranjit@moonmilk.volcano.org  http://moonmilk.volcano.org
+
+# Note: You will need to adjust all folder locations in this program
+# to suit your system.
+
+# Purpose/Description:
+# --------------------
+#
+# Makes a list (actually a dbm hash) of all the files under the web
+# document root.
+# The keys to the hash are the file paths in all lower case letters,
+# the corresponding values are the actual pathnames which may be in
+# mixed case.
+#
+# This list is used by:
+# * A server API/CGI program to make the Unix based web server ignore
+# upper/lower case when someone requests a url like NT does. When a page
+# is not found, the server runs an api module or cgi program that converts
+# the url to all lowercase and checks this hash table, if the page is
+# found, it forwards the browser to it. If not, it gives the usual
+# not found message.
+# * The indexing program to make the site searchable.
+#
+#
+# Q. Why would I want to make my Unix web server ignore case in URLs ?
+# A. Several reasons. Many sites use a mixture of naming conventions
+#    especially when many people work on the site. Also, when people
+#    upload files to the unix servers from PCs or MACs, the case may
+#    vary depending on program used to transfer, it's configuration,
+#    and the file name itself.
+#    Also, if your unix server shares a disk with an NT server using
+#    Samba or NFS, and you want to make it searchable using MS Index
+#    Server or NT based search program, this ensures that URLs will
+#    always work.
+#    It makes it easier for you to give out your urls without saying
+#    &quot;with an uppercase F and a lowercase o&quot;.
+#    If NT web servers do not care about case in URLs, why should unix ?
+#
+# Author: Rajiv Pant (Betul)  betul@rajiv.com  http://rajiv.org
+
+
+
+# ---- Libraries used ----
+
+require 5.003 ;
+
+use File::Find ;	# Part of standard perl distribution.
+
+use Fcntl ;		# Part of standard perl distribution.
+
+# Note: If you do not have Berkeley DB installed, any of the
+# other Perl DBMish modules (GDBM_File, NDBM_File, ODBM_File, SDBM_File
+# will also suffice.)
+
+use DB_File ; 		# Part of standard perl distribution.
+
+
+# ---- /Libraries used ----
+
+
+
+# --- Directories and files --- 
+
+# This is the web server's document root. If you would like this
+# program to handle some other virtual roots too, you should list
+# them here.
+
+$document_root	= '/disk2/web' ;
+
+
+# $indices_dir is where the search indexes and some related files
+# are stored.
+
+$indices_dir	= '/datafiles/indices' ;
+
+
+# $exclude_list is a list of folders under document root which
+# should not be inclded in this list. Any folders inside these
+# folders are also skipped. This plain text file follows a simple
+# format which is explained below.
+
+$exclude_list	= '/pin/pub/exclude-from-search.txt' ;
+
+
+# $dbm_of_urls is the name of the dbm that will contain this hash
+# table (associative array) of all lowercase urls to their real
+# path names.
+
+$dbm_of_urls	= $indices_dir . '/dbm_of_urls' ;
+
+
+# --- /Directories and files --- 
+
+
+
+
+# ---- Reading the exclude list ----
+
+# A short, sample exclude list file follows.
+# The file can contain comments. Any line containing a # is considered
+# a comment. To use the sample file below, you will have to remove the
+# comment sign and space &quot;# &quot; that prefixes each entry.
+#
+# -- Sample begins in next line --
+# ads
+# clients/mohan
+# clients/vic/adultpages
+# messages/error
+# test
+# -- Sample ends in previous line --
+
+open (EL, $exclude_list) ;
+while (&gt;EL&lt)
+  {
+  s/\s//g ;		# Removing spaces, tabs and newlines.
+  next if /#/ ;		# Skipping comments.
+  next unless /\w/ ;	# Skipping blank lines.
+
+  push @not_to_be_indexed, $_ ;
+  }
+close (EL) ;
+
+#print join &quot;\n&quot;, @not_to_be_indexed ; exit ; # debug
+
+# ---- /Reading the exclude list ----
+
+
+
+
+# ---- main ----
+
+# Note: Depending on how you set up your system, you may want to
+# first remove the existing dbm file before adding urls to it here.
+
+tie %dbm_of_urls, DB_File, $dbm_of_urls, O_RDWR|O_CREAT, 0644 ;
+
+&amp;find (\&amp;add_url_to_dbm, $document_root) ;
+
+untie %dbm_of_urls ;
+
+# ---- /main ----
+
+
+
+
+# The add_url_to_dbm subroutine is called by the find subroutine as
+# it recurses the directory tree. When the make_dir_list subroutine
+# sees a directory in the not to be indexed list, it tells find() to
+# not recurse any more into that folder any more. find skips to the
+# next folder and the list gets built saving system resources that
+# would have been wasted in a complete traversal.
+
+sub add_url_to_dbm
+{
+if (-d and 
+    grep $File::Find::name =~ /^$document_root\/$_\// , @not_to_be_indexed)
+  { $File::Find::prune = 1 }
+
+else
+  {
+  ($URL) = $File::Find::name =~ /^$document_root\/(.*)$/ ;
+  ($in_lower_case = $URL) =~ tr/A-Z/a-z/ ;
+  $dbm_of_urls{$in_lower_case} = $URL ;
+  }
+
+} # ---- end of sub add_url_to_dbm ----
+
+# Author: Rajiv Pant (Betul)   betul@rajiv.com   http://rajiv.org
+</pre>
+
+<!--#include virtual="/common/navigation/footer.inc" -->
+
+</body>
+</html>

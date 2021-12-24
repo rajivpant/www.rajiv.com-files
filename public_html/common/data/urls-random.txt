@@ -1,0 +1,9 @@
+# random.txt data file containing some urls used by http://rajiv.com/random.asp
+india/humor/
+personal/
+personal/interests.asp
+personal/photos/
+work/free/
+work/com/
+philosophy/
+work/resume/

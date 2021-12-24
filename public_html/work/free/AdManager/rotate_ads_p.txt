@@ -1,0 +1,15 @@
+#!/usr/local/bin/perl
+# rotate_ads_p
+# Rajiv Pant (Betul)
+
+# Shows the ads on the home page with a separator betwwen them
+
+require '/inet/cgi/lib/ad_choose_and_show.plh' ;
+
+print "Content-type: text/html\n\n" ;
+
+foreach $i (@ARGV)
+  {
+  &ad_choose_and_show ($i, 1, "<p>") ;
+  }
+

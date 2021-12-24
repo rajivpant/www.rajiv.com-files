@@ -1,0 +1,110 @@
+#!/usr/local/bin/perl
+## Program name: jpegsize
+## Author: Stuart Curtis Lathrop <sclathrop@niitech.com>
+## Version: 1.0. July 2000.
+## Copyright: This code is placed into the Public Domain under the
+##            terms of the GNU Public License. No fee may be charged
+##            for its use or distribution.
+##
+## Kudos to: Rajiv Pant (Betul) <betul@rajiv.com http://rajiv.org>,
+##             author of gifsize.pl
+##           Jef Poskanzer <jef@acme.com>, author of image_size.c
+##           and the Independent JPEG Group for their direction!
+##
+## THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+## ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+## IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+## ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+## FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+## DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+## OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+## HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+## LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+## OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+## SUCH DAMAGE.
+##
+## Notes: This script will _not_ handle JPEG redefinition of image size
+##        via DNL marker tag.  Files so encoded will either return zero
+##        width & height (typically) or will generate a tag error.
+##
+
+
+foreach $jpeg (@ARGV)
+{
+  $M_SOI  = "\xd8";
+  $M_BLK  = "\xff";
+
+  ($width, $height, $type) = jpegsize($jpeg);
+  print "$jpeg width = ", $width, ", height = ", $height;
+  ($type =~ $M_BLK.$M_SOI) ? print "\n" : print "$jpeg is not a JPEG.\n" ;
+}
+
+sub jpegsize
+{
+  local ($jpeg) = @_ ;
+  local ($type, $tag, $marker, $buffer, $lhob, $llob, $blocklen) = ();
+  local ($whob, $wlob, $hhob, $hlob, $width, $height) = ();
+
+  ## required jpeg markers
+  $M_SOF0 = "\xc0";
+  $M_SOF1 = "\xc1";
+  $M_SOF2 = "\xc2";
+  $M_SOF3 = "\xc3";
+  $M_SOI  = "\xd8";
+  $M_EOI  = "\xd9";
+  $M_SOS  = "\xda";
+  $M_BLK  = "\xff";
+
+  open (JPEG, "<".$jpeg) || die "Unable to open $jpeg, $!";
+  binmode (JPEG) || die "Cannot read $jpeg in binary mode, $!";
+  read (JPEG, $type, 2) || die "Error while reading $jpeg, $!";
+  ## check for jpeg file type (start of image) marker
+  if (!($type eq $M_BLK.$M_SOI))
+  {
+    close(JPEG) || die "Error closing $jpeg, $!";
+    return ( 0, 0, $type );
+  }
+  for (;;)
+  {
+    ## check for block tag
+    read (JPEG, $tag, 1) || die "Error while reading $jpeg, $!";
+    if ($tag ne $M_BLK)
+    {
+      print "Error: No start of block marker (0xff) found!\n";
+      close(JPEG) || die "Error closing $jpeg, $!";
+      return ( 0, 0, $type );
+    }
+    ## get marker type & block length
+    read (JPEG, $marker, 1) || die "Error while reading $jpeg, $!";
+    read (JPEG, $lhob, 1) || die "Error while reading $jpeg, $!";
+    read (JPEG, $llob, 1) || die "Error while reading $jpeg, $!";
+    $blocklen = (ord($lhob) * 256) + ord($llob) - 2;
+    ## check for any start of field marker
+    if ( $marker ge $M_SOF0 && $marker le $M_SOF3 )
+    {
+      ## ignore data precision
+      read (JPEG, $buffer, 1) || die "Error while reading $jpeg, $!";
+      ## read the height and width.
+      read (JPEG, $hhob, 1) || die "Error while reading $jpeg, $!";
+      read (JPEG, $hlob, 1) || die "Error while reading $jpeg, $!";
+      $height = (ord($hhob) * 256) + ord($hlob);
+      read (JPEG, $whob, 1) || die "Error while reading $jpeg, $!";
+      read (JPEG, $wlob, 1) || die "Error while reading $jpeg, $!";
+      $width = (ord($whob) * 256) + ord($wlob);
+      # ignore components & rest of file...
+      close(JPEG) || die "Error closing $jpeg, $!";
+      return ($width, $height, $type);
+    }
+    else
+    {
+      if ( $marker eq M_SOS || $marker eq M_EOI )
+      {
+        ## past header data; size indeterminable
+        close(JPEG) || die "Error closing $jpeg, $!";
+        return (0, 0, $type);
+      }
+      ## skip to next marker
+      read (JPEG, $buffer, $blocklen);
+    }
+  }
+}

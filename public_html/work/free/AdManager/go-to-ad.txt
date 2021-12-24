@@ -1,0 +1,103 @@
+#!/usr/local/bin/perl
+# Program name: go-to-ad
+# Installed in the CGI directory.
+
+# Purpose:
+#       This is a "click-through" CGI program that sends the browser to
+# an advertiser's site.
+
+# Optional Feature:
+#       Before it does that, it can log certain information.
+# The log file name is based on the url or image name passed to it.
+# This avoids the overhead of dealing with a database. The data
+# analysis and lookup can be done on a different machine later.
+
+# Written by: Rajiv Pant (Betul)  betul@rajiv.com  http://rajiv.org
+
+# Original Version: 1.0 1995/Dec
+# Current Version: 1.1 1996/Jun
+
+# Current status: Replaced by a more efficient Server API version.
+
+use lib '/my/perl/lib/where/date/and/time/module/is/kept' ;
+
+use Date_Time ; # Perl object package written by Betul.
+                # Freely available at http://rajiv.org
+
+
+$AdLogFolder = '/inet/data/logs/advertisers' ;
+
+$ImageExtensions = '(gif|jpg|jpeg)' ;
+
+$Date = new Date_Time ;
+
+($URL, $Image) = split '&image=', $ENV{'QUERY_STRING'} ;
+
+
+
+$ToBeLogged = 0 ;
+
+
+if ($ToBeLogged)
+{
+
+# The name of the log file is the Image name, if specified.
+# If not, the URL is used. If the URL is used, then
+# removing the initial http:// or https:// part of the URL
+# for the log file name since over 99% of sites are http:// anyway.
+
+($LogFile = ($Image or $URL)) =~ s{^\w+\://}{} ;
+
+
+# Converting slashes to underscores because a unix file name can not
+# contain any slashes.
+
+$LogFile =~ tr[/][_] ;
+
+
+# Removing the .GIF or .jpeg extension from the end of the file.
+# We don't expect an advertiser's URL to end in an image.
+
+$LogFile =~ s/\.$ImageExtensions$//i ;
+
+
+# We start a new log file every month.
+
+$LogFile = "$AdLogFolder/$LogFile." . $Date->year . $Date->month ;
+
+open (LOGFILE, ">>$LogFile") ; # Disabled for now.
+
+# Locking the log file so that another instance of this program
+# or some other program wanting to open the same file has to wait
+# until this instance unlocks it.
+
+flock LOGFILE, 2 ; # 2 Means lock with exclusive rights on the file.
+
+# Now we seek to the end of the file in case our previous lock
+# request had to wait for another program to complete its work
+# and unlock the file.
+
+seek LOGFILE, 0, 2 ;
+
+
+print LOGFILE 
+
+'DATE=',		$Date->year. $Date->month. $Date->day,	"\t",
+'TIME=',		$Date->time_format_1,			"\t",
+'HTTP_REFERER=',	$ENV{'HTTP_REFERER'},			"\t",
+'HTTP_USER_AGENT=',	$ENV{'HTTP_USER_AGENT'},		"\t",
+'REMOTE_ADDR=',		$ENV{'REMOTE_ADDR'} ;
+
+
+# Unlocking the file.
+
+flock LOGFILE, 8 ; # 8 Means unlock the file.
+
+close (LOGFILE) ;
+
+} # end if ToBeLogged
+
+
+# Redirecting the browser to go to the advertiser's URL specified.
+
+print "Location: $URL\n\n" ;

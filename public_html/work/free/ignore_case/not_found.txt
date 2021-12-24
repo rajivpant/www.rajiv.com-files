@@ -1,0 +1,208 @@
+#!/usr/local/bin/perl
+# Program name:	not_found.cgi
+# Installed in:	/programs/messages/
+# Runs on:	all our unix web servers
+
+# Author: Rajiv Pant (Betul)  http://rajiv.org   betul@rajiv.org 
+
+# Version: 2.0. (Updated for make_dbm_of_urls) 1996/Sep/22
+
+# Note: You will need to adjust all folder locations in this program
+# to suit your system.
+
+ 
+BEGIN { $| = 1 }
+
+
+# ---- Libraries used ----
+
+require 5.003 ;
+
+use File::Find ;        # Part of standard perl distribution.
+
+use Fcntl ;             # Part of standard perl distribution.
+
+# See not about DB_File in the companion program make-dbm-of-urls
+use DB_File ;           # Part of standard perl distribution.
+
+
+# ---- /Libraries used ----
+
+
+
+
+# --- Directories and files ---
+
+# This is the web server's document root. If you would like this
+# program to handle some other virtual roots too, you should list
+# them here.
+
+$document_root  = '/inet/web' ;
+
+
+# $indices_dir is where the search indexes and some related files
+# are stored.
+
+$indices_dir    = '/inet/index' ;
+
+
+# $dbm_of_urls is the name of the dbm that will contain this hash
+# table (associative array) of all lowercase urls to their real
+# path names.
+
+$dbm_of_urls    = $indices_dir . '/dbm_of_urls' ;
+
+
+# --- /Directories and files ---
+
+
+
+
+# --- Reading CGI values ---
+# In a server API version of this program, read in the corresponding
+# values. 
+ 
+$referer		= $ENV{'HTTP_REFERER'} ;
+$server_name		= $ENV{'SERVER_NAME'} ;
+($referer_server)	= $referer =~ m%[A-Za-z]+://([^/]+)/% ;
+$path_info		= $ENV{'PATH_INFO'} ;
+$path_info		= $ENV{'REDIRECT_URL'} unless $path_info ;
+
+($in_lower_case)	= $path_info =~ /^\/(.*)$/ ;
+$in_lower_case		=~ tr/A-Z/a-z/ ;
+
+# --- /Reading CGI values ---
+
+tie %dbm_of_urls, DB_File, $dbm_of_urls, O_READ, 0 ;
+
+$url = $dbm_of_urls{$in_lower_case} ;
+
+untie %dbm_of_urls ;
+
+
+if ($url)
+  {
+  print <<EOM;
+Location: http://$server_name/$url
+Content-type: text/html
+
+
+<html>
+<head>
+<META HTTP-EQUIV="Refresh" CONTENT="0; URL=/$url">
+<title>The page you requested is at: /$url</title>
+</head>
+<body>
+The page you asked for, /$path_info is located at
+<a href="/$url">/$url</a>. Your browser should have
+taken you there automatically.
+</body>
+</html>
+EOM
+  exit ;
+  }
+
+
+# else continuing with regular error handling ...
+
+
+print <<EOM;
+Content-type: text/html
+
+<html>
+
+<head>
+<title>
+$path_info not found on $server_name
+</title>
+</head>
+
+<!-- Technical Problems ? Contact Rajiv Pant (Betul)   http://rajiv.org --> 
+<!-- betul\@rajiv.org --> 
+ 
+<body><!-- default grey background for error message page -->
+
+<center>
+<h3>
+The page 
+<font color="#de0031">
+$path_info 
+</font>
+you requested could not be found on $server_name
+</h3>
+</center>
+<font size=+1>
+EOM
+
+if ($referer eq '')
+  {
+  print <<EOM;
+Please check if the URL
+<font color="#de0031">http://$server_name$path_info</font>
+you have typed in is accurate.
+<p>
+If you have come here via an old bookmark you had made on
+our site, it is possible that the page has been deleted or moved
+or was a part of a virtual space. In that case, you may want to
+look for it on our site again.
+EOM
+  }
+elsif ($referer =~ /\.rajiv\.com/)
+  {
+print <<EOM;
+If you like, you can 
+<a href="mailto:online.staff\@rajiv.com">send us an email</a>
+that the <a href="$referer">$referer</a> page on our site contains
+an incorrect link to <font color="#de0031">$path_info</font>.
+EOM
+  }
+else
+  {
+print <<EOM;
+You were referred to the incorrect <font color="#de0031">$path_info</font>
+link from the site <font color="#de0031">$referer_server</font>.
+<p>
+
+We would appriciate it if you could email the maintainer of the
+page <a href="$referer">$referer</a> about this incorrect link to 
+<font color="#de0031">http://$server_name$path_info</font>.
+<p>
+
+You may find the email address on that site, or you may try sending to
+<a href="webmaster\@referer_server">webmaster\@$referer_server</a>.
+
+EOM
+  }
+
+print <<EOM;
+<p>
+<i>You may find the information you are looking for via our</i>
+<br>
+<a href="/search/">
+<li>Search System
+</a>
+<br>
+<a href="/help/contents.html">
+<li>Table of Contents
+</a>
+
+</font>
+
+
+<hr size=1 noshade>
+<table width=100% border=0>
+<tr>
+<td align=right>
+<a href="mailto:online.staff\@rajiv.com">
+online.staff\@rajiv.com
+</a>
+</td>
+</tr>
+</table>
+
+<!-- Rajiv Pant (Betul)  betul\@rajiv.org   http://rajiv.org -->
+
+</body>
+
+</html>
+EOM

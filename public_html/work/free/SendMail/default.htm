@@ -1,0 +1,80 @@
+<%@ LANGUAGE="VBSCRIPT" %>
+<html>
+
+<head>
+<!--#include virtual="/common/navigation/meta.inc" -->
+<meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+</head>
+
+<body  topmargin="0" leftmargin="0" margintop="0" marginleft="0">
+<!--#include virtual="/common/navigation/header.inc" -->
+
+<h1>Installing SendMail Java Class as an ASP Component</h1>
+
+<p>(There is a note about extra reliability after the instructions.)</p>
+
+<p>1. Download the binaries <a href="SendMail.dat">SendMail.class</a>, <a
+href="SendMailCouldNotDeliverException.dat">SendMailNotDeliverException.class</a> &amp; <a
+href="SendMailResponseException.dat">SendMailResponseException.class</a> and the sample
+ASP page <a href="tryit.txt">tryit.asp</a>. After you download the above three .dat files,
+rename them from .dat to .class. From the NT command prompt, you can use the command: <nobr><code>rename
+*.dat *.class</code></nobr> You can also download these three files in .java source code
+form from my <a href="../">free software page</a> and compile them to .class yourself.
+Also, rename tryit.txt to tryit.asp after downloading. </p>
+
+<p>2. Place the SendMail*.class files in your Win NT Java Trusted Libraries folder. To do
+this, you can enter at the NT command prompt: </p>
+<div><nobr><code>
+
+<p>mkdir %SystemRoot%\Java\TrustLib\COM\rajiv\net</code></nobr></p>
+</div>
+
+<p>(If Win NT Command Extensions are not enabled, you will need to create the <code>COM</code>
+folder, then the <code>rajiv</code> folder, then the <code>net</code> folder. To place the
+files in the folder, you can enter at the command prompt: </p>
+<div><nobr><code>
+
+<p>copy /b SendMail*.class %SystemRoot%\Java\TrustLib\COM\rajiv\net</code></nobr></p>
+</div>
+
+<p>3. Register the class as a Active Server Component. To do this, you need the <code>javareg</code>
+program which is freely available at <a href="http://www.microsoft.com/java/">http://www.microsoft.com/java/</a>
+as a part of their free Java SDK. You may also have this utility if you have Visual J++.
+At the NT command prompt, enter: </p>
+<div><nobr><code>
+
+<p>javareg /register /class:COM.rajiv.net.SendMail /progid:COM.rajiv.net.SendMail</code></nobr></p>
+</div>
+
+<p>4. Restart your Internet Information Server.&nbsp; This means shutting down all IIS
+services and restarting them. If you are running IIS services besides w3svc &amp; msftpsvc
+(like gopher in IIS 3.0), you should include that in the restart.</p>
+
+<p>If you are running MS IIS 3.0, use the IIS Manager GUI, or at the command prompt</p>
+<div><nobr><code>
+
+<p>net stop w3svc &amp; net stop msftpsvc &amp; net start msftpsvc &amp; net start w3svc</code></nobr></p>
+</div>
+
+<p>If you are running MS IIS 4.0, use the MS Management Console on IIS, or at the command
+prompt</p>
+<div><nobr><code>
+
+<p>net stop iisadmin /y &amp; net start msftpsvc &amp; net start w3svc</code></nobr></p>
+</div>
+
+<p>5. Place tryit.asp in a web folder with script access, change the e-mail addresses and
+headers to your own for testing and test the script. </p>
+
+<p>Note: When using this on a web server from ASP or CGI, you can get extra reliablity by
+installing a mail server locally. Then, when using this object's setSMTPServer(String)
+method, specify the local host as the mail server instead of your primary mail server.
+That enables queuing of mail for later delivery attempts when your primary mail server is
+not accessible. Pick a freeware mail server that is simple, reliable, lightweight and has
+minimal overhead. For security, configure the system such that only the machine itself can
+use this local mail server to send outgoing mail.</p>
+<!--#include virtual="/common/navigation/footer.inc" -->
+</body>
+</html>

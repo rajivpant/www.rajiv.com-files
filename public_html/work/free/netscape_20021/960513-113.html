@@ -1,0 +1,295 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="PRODUCT" CONTENT="Commerce Server, Communications Server, Enterprise Server, FastTrack Server">
+   <META NAME="CATEGORY" CONTENT="cnfg">
+   <META NAME="OS" CONTENT="All">
+   <META NAME="VERSION" CONTENT="1.x, 2.x">
+   <META NAME="CREATED" CONTENT="05/13/96">
+   <META NAME="UPDATED" CONTENT="09/18/96">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.0b3 [en] (WinNT; I) [Netscape]">
+   <TITLE>Customizing automatic indexing (or turning it off)</TITLE>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#FF0000" ALINK="#FF0000">
+<CENTER><IMG USEMAP="#headmap" SRC="support_ban.gif" HEIGHT=32 WIDTH=468></CENTER>
+<CENTER><MAP NAME="headmap"><AREA COORDS="0,0,32,31"   HREF="http://home.netscape.com/"><AREA COORDS="33,0,467,31"  HREF="http://help.netscape.com/"></MAP></CENTER>
+
+<CENTER>
+<H2>
+Customizing automatic indexing (or turning it off)</H2></CENTER>
+
+<CENTER><TABLE WIDTH="468" >
+<TR>
+<TD ALIGN=RIGHT VALIGN=TOP><B>Issue:</B>
+</TD>
+
+<TD VALIGN=TOP>960513-113
+</TD>
+
+<TD ALIGN=RIGHT VALIGN=TOP><B>Product:</B>
+</TD>
+
+<TD VALIGN=TOP>Commerce Server, Communications Server, Enterprise Server,
+FastTrack Server
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN=RIGHT VALIGN=TOP><B>Created:</B>
+</TD>
+
+<TD VALIGN=TOP>05/13/96
+</TD>
+
+<TD ALIGN=RIGHT VALIGN=TOP><B>Version:</B>
+</TD>
+
+<TD VALIGN=TOP>1.x, 2.x
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN=RIGHT VALIGN=TOP><B>Last Updated:</B>
+</TD>
+
+<TD VALIGN=TOP>09/18/96
+</TD>
+
+<TD ALIGN=RIGHT VALIGN=TOP><B>OS:</B>
+</TD>
+
+<TD VALIGN=TOP>All
+</TD>
+</TR>
+</TABLE></CENTER>
+<CENTER><FORM METHOD="POST" ACTION="/cgi-bin/didithelp.cgi"><INPUT TYPE=hidden NAME="said" VALUE="960513-113"></CENTER>
+
+<CENTER><TABLE>
+<TR>
+<TD BGCOLOR="#CCFFCC" CELLPADDING="5" BORDER="1">
+
+<TABLE>
+<TR>
+<TD><B>Does this article answer your question?&nbsp;<INPUT TYPE=RADIO NAME="feedback" VALUE="yes">Yes&nbsp;<INPUT TYPE=RADIO NAME="feedback" VALUE="no">No</B>
+</TD>
+
+<TD><INPUT TYPE=SUBMIT NAME="submit" VALUE="Let Us Know!">
+</TD>
+</TR>
+</TABLE>
+
+</TD>
+</TR>
+</TABLE></CENTER>
+</FORM>
+<BR>
+<BR>
+<HR>
+
+<PRE>"Automatic indexing" refers to the list of files you see if you browse
+to a directory on your web server which does not have an index file
+(usually "index.html" or "home.html") in it.
+
+You can turn this off in the 2.0 web servers from the "Document
+Preferences" admin page under "Content Mgmt".&nbsp; On a 1.x web server,
+there is no direct way to turn this off, but you can try one of the
+following:
+
+&nbsp;&nbsp;&nbsp; o&nbsp; If you want to turn off automatic indexing for one specific
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; directory, then just put an empty (zero-byte-long) "index.html"
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; file in that directory.
+
+&nbsp;&nbsp;&nbsp; o&nbsp; If you want to turn off automatic indexing for all directories,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; then change the "Service fn=index-common ..." or
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "Service fn=index-simple ..." lines in your "obj.conf" file to
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; one of these:
+
+&nbsp; Service fn="send-file" method="(GET|HEAD)" type="magnus-internal/directory"
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This will cause a user to get a "Forbidden" error message in
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; his browser, and there will be no error logged on the server.
+
+&nbsp; Service fn="deny-existence" method="(GET|HEAD)" type="magnus-internal/directory"
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This will cause a user to get a "Not Found" error message in
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; his browser, and an error will be logged on the server.
+
+If you want the server to do something fancy with the index page it
+generates for you, such as make it display all "*.html" files but no
+other file types, then you can simulate the desired behavior by creating
+an "index.cgi" program that, when accessed, reads a list of the files in
+the directory it's in and outputs a custom page based on them.&nbsp; An
+example which was written for us is included below.&nbsp; Be sure to turn on
+CGI for your server (via the admin pages) and add "index.cgi" to the
+list of default index files for your directories (this list is editable
+in the admin server and it defaults to "index.html,home.html").
+
+Note that the 1.1 server manuals contain incorrect information about
+being able to set the "Description" field in the server's automatic
+"fancy indexing".&nbsp; It is not possible to set the "Description" field in
+the 1.1 Netscape servers.
+
+
+Sample code follows:
+
+#!/usr/local/bin/perl
+# index.cgi
+# by Rajiv Pant (Betul) http://rajiv.org for Netscape Communications
+# Re: Netscape Technical Note 20021
+# Turning off "automatic indexing" or showing only certain files
+
+
+# --- user defines begin ---
+
+$document_root = '/extra/web' ;
+
+@exclude = # These are not displayed
+(
+'.zip',
+'.c',
+'.cgi'
+) ;
+
+%icons = # These are the icons for the displayed ones
+(
+'gif',&nbsp; 'image',
+'jpg',&nbsp; 'image',
+'jpeg', 'image',
+'au',&nbsp;&nbsp; 'sound',
+'bin',&nbsp; 'binary',
+'txt',&nbsp; 'text',
+'text', 'text'
+) ;
+
+$icon_back&nbsp;&nbsp;&nbsp;&nbsp; ='back' ;
+$icon_menu&nbsp;&nbsp;&nbsp; = 'menu' ;
+$icon_unknown = 'unknown' ;
+
+# --- user defines end ---
+
+require "ctime.pl" ;
+
+$this_dir = `pwd` ;
+$this_dir =~ s#^$document_root(.*)$#$1/# ;
+
+&amp;header ;
+&amp;get_files ;
+&amp;show_files ;
+
+
+sub header
+{
+print &lt;&lt;EOM;
+Content-type: text/html
+
+EOM
+}
+
+
+sub get_files
+{
+opendir (THIS_DIR, ".") ;
+@files = grep (!/^\.$/, readdir (THIS_DIR)) ;
+close (THIS_DIR) ;
+}
+
+sub show_files
+{
+
+$long_line =
+"&lt;IMG SRC=\"/mc-icons/blank.gif\" ALT=\"&nbsp;&nbsp;&nbsp;&nbsp; \">" .
+"&nbsp; Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Last modified&nbsp;&nbsp;&nbsp;&nbsp; Size&nbsp; Description" ;
+
+print &lt;&lt;EOM;
+&lt;TITLE>Index of $this_dir&lt;/TITLE>
+&lt;h1>Index of $this_dir&lt;/h1>
+&lt;PRE>
+$long_line
+&lt;HR>
+EOM
+
+foreach $file (sort @files)
+&nbsp; {
+&nbsp; $show = 1 ;
+&nbsp; foreach $exclude (@exclude)
+&nbsp;&nbsp;&nbsp; {
+&nbsp;&nbsp;&nbsp; if ($file =~ /$exclude$/) { $show = 0 ; }
+&nbsp;&nbsp;&nbsp; }
+&nbsp; if ($show)
+&nbsp;&nbsp;&nbsp; {
+&nbsp;&nbsp;&nbsp; $date_last_modified = (stat ($file))[9] ;
+&nbsp;&nbsp;&nbsp; @date_last_modified = split (" ", &amp;ctime ($date_last_modified)) ;
+&nbsp;&nbsp;&nbsp; $day = $date_last_modified [2] ;
+&nbsp;&nbsp;&nbsp; $day = "0" . $day if (length ($day) == 1) ;
+&nbsp;&nbsp;&nbsp; $month = $date_last_modified [1] ;
+&nbsp;&nbsp;&nbsp; ($yr) = $date_last_modified [5] =~ m/(..)$/ ;
+&nbsp;&nbsp;&nbsp; ($time) = $date_last_modified [3] =~ m/^(\d{1,2}:\d{1,2})/ ;
+&nbsp;&nbsp;&nbsp; $last_modified = "$day-$month-$yr $time" ;
+&nbsp;&nbsp;&nbsp; $size = -s $file ;
+&nbsp;&nbsp;&nbsp; ($size > 1024) ? $size = int ($size / 1024) ."K"
+&nbsp;&nbsp;&nbsp; : ($size != 0) &amp;&amp; ($size = "1K") ;
+&nbsp;&nbsp;&nbsp; $file_name_truncated = $file ;
+&nbsp;&nbsp;&nbsp; $file_name_truncated =~ s/^(.{21}).*/$1+/ ;
+&nbsp;&nbsp;&nbsp; ($ext) = $file =~ /\.([^\.]*)$/ ;
+&nbsp;&nbsp;&nbsp; $ext =~ tr/A-Z/a-z/ ;
+&nbsp;&nbsp;&nbsp; ($icon, $alt) = (defined ($icons{$ext})) ?
+&nbsp;&nbsp;&nbsp; ($icons{$ext}, "IMG") : ($icon_unknown, "&nbsp;&nbsp; ") ;
+&nbsp;&nbsp;&nbsp; (-d $file) &amp;&amp; ($icon = $icon_menu) ;
+&nbsp;&nbsp;&nbsp; if ($file eq '..')
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $file_name_truncated = 'Parent Directory' ;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $icon = $icon_back ;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+&nbsp;&nbsp;&nbsp; $img_src = "&lt;IMG SRC=\"/mc-icons/$icon.gif\" ALT=\"[$alt]\" BORDER=0>&nbsp; " ;
+&nbsp;&nbsp;&nbsp; print "&lt;a href=\"$file\" name=\"$file\">" , $img_src ;
+&nbsp;&nbsp;&nbsp; write
+&nbsp;&nbsp;&nbsp; }
+&nbsp; }
+print "&lt;/pre>\n" ;
+}
+
+
+format STDOUT =
+@&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; &lt;/a>@&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; @>>>>
+$file_name_truncated, $last_modified, $size
+.
+
+# End of program listing.&nbsp; Rajiv Pant betul@rajiv.org&nbsp; http://rajiv.org
+
+</PRE>
+<CENTER><FORM METHOD="POST" ACTION="/cgi-bin/didithelp.cgi"><INPUT TYPE=hidden NAME="said" VALUE="960513-113"></CENTER>
+
+<CENTER><TABLE>
+<TR>
+<TD BGCOLOR="#CCFFCC" CELLPADDING="5" BORDER="1">
+
+<TABLE>
+<TR>
+<TD><B>Does this article answer your question?&nbsp;<INPUT TYPE=RADIO NAME="feedback" VALUE="yes">Yes&nbsp;<INPUT TYPE=RADIO NAME="feedback" VALUE="no">No</B>
+</TD>
+
+<TD><INPUT TYPE=SUBMIT NAME="submit" VALUE="Let Us Know!">
+</TD>
+</TR>
+</TABLE>
+
+</TD>
+</TR>
+</TABLE></CENTER>
+</FORM>
+<BR>
+<BR>
+<HR SIZE=4>
+<CENTER><BR></CENTER>
+<CENTER><A HREF="http://home.netscape.com/misc/bottom.map"><IMG ISMAP USEMAP="#barmap" SRC="navigation_bar.gif" BORDER=0 HEIGHT=32 WIDTH=468></A></CENTER>
+<CENTER></CENTER>
+<CENTER>&nbsp;<MAP NAME="barmap"><AREA COORDS="0,7,70,31"    HREF="http://home.netscape.com/"><AREA COORDS="71,7,150,31"  HREF="http://home.netscape.com/comprod/mirror/"><AREA COORDS="151,7,225,31" HREF="http://home.netscape.com/assist/"><AREA COORDS="226,7,300,31" HREF="http://help.netscape.com/"><AREA COORDS="301,7,371,31" HREF="http://home.netscape.com/search/"><AREA COORDS="372,7,467,31" HREF="http://home.netscape.com/ads/"><AREA COORDS="0,0,467,31"   HREF="http://home.netscape.com/"></MAP><FONT SIZE=-1>Corporate
+Sales: 415/937-2555; Personal Sales: 415/937-3777; Federal Sales: 415/937-3678</FONT></CENTER>
+<CENTER><FONT SIZE=-1>If you have any questions, please visit <A HREF="http://home.netscape.com/assist/">Customer
+Service</A>.</FONT></CENTER>
+<CENTER></CENTER>
+<CENTER><FONT SIZE=-1>&nbsp;Copyright &copy; 1997 <A HREF="http://home.netscape.com/misc/contact_info.html">Netscape
+Communications Corporation</A></FONT>&nbsp;</CENTER>
+
+</BODY>
+</HTML>

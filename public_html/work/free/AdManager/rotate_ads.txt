@@ -1,0 +1,10 @@
+#!/usr/local/bin/perl
+# rotate_ads
+# Rajiv Pant (Betul)
+
+require '/inet/cgi/lib/ad_choose_and_show.pl' ;
+
+print "Content-type: text/html\n\n" ;
+
+&ad_choose_and_show ($ARGV [1], $ARGV[0]) ;
+

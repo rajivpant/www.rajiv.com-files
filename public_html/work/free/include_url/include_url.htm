@@ -1,0 +1,44 @@
+<%@ LANGUAGE="VBSCRIPT" %>
+
+<HTML>
+<head>
+<!--#include virtual="/common/navigation/meta.inc" -->
+
+</HEAD>
+<body  topmargin="0" leftmargin="0" margintop="0" marginleft="0">
+
+<!--
+File Name:	test-include_url.asp
+Author:	Rajiv Pant (Betul)  betul@rajiv.org  http://rajiv.org
+-->
+
+
+<!-- This is a regular shtml/asp local include. The remote
+     include is below the hr tag. -->
+
+<!--#include virtual="/common/navigation/header.inc" -->
+
+This is the top of this page. Below you will see a remote
+url embedded in this page.
+
+<hr>
+
+<!--
+The two lines below show how to use the include_url object
+from an asp page.
+-->
+
+<%  ' Set include_url = Server.CreateObject ("include_url") %>
+<% '  = include_url.display("http://rajiv.com/") %>
+
+<hr>
+
+End of remote url. This is the rest of the page.
+
+<!-- This is a regular shtml/asp local include. The remote include
+     is above. -->
+<!--#include virtual="/common/navigation/footer.inc" -->
+
+
+</BODY>
+</HTML>

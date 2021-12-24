@@ -1,0 +1,140 @@
+<html>
+<head>
+<!--#include virtual="/common/navigation/meta.inc" -->
+<title>
+TourGuide Site Navigator Applet
+</title>
+</head>
+
+<body  topmargin="0" leftmargin="0" margintop="0" marginleft="0">
+
+
+<!--#include virtual="/common/navigation/header.inc" -->
+
+
+<pre>
+/**
+
+TourGuide.java
+
+An Applet by Rajiv Pant (Betul)
+
+A web site navigator, also
+a Tour Guide for your visit to a web site or a group of web sites.
+
+Parameters can be set from calling html page so that other sites
+may easily use this applet.
+
+Aim of applet / Future Additions:
+
+* To be fully customizable.
+* Use full multimedia introductions to sites. (Of course, users can
+turn off sound :-)
+
+* If a page has special instructions for its introduction (which may
+either be stored in the page itself on in the links file specified
+as a parameter to the applet, the applet can do special things including:
+
+   ** Open another window to display an introduction page.
+   ** Parse the page and display it in parts explaing things.
+
+ @version 1.00 1996/Mar/14
+ @author Rajiv Pant (Betul)
+
+*/
+
+import java.awt.*;
+import java.applet.*;
+import java.net.*;
+import java.io.*;
+import java.util.* ; // for Hashtable
+
+public class TourGuide extends Applet
+{  public void init()
+   {
+
+      System.out.print (&quot;\n\nHello.\n\n&quot; ) ;
+
+      setBackground (Color.white) ;
+
+      boolean read = readLinksFile() ;
+
+      setLayout(new BorderLayout());
+      add(&quot;Center&quot;, links);
+
+   }
+   
+   public boolean action(Event evt, Object arg)
+   {  if (evt.target == links)
+      {  try
+         {  AppletContext context = getAppletContext();
+            URL u = new URL ( (String) ( its_link.get ( (String)arg ) )  )  ;
+            context.showDocument(u, getParameter(&quot;frame_name&quot;)) ;
+         } catch(Exception e)
+         {  showStatus(&quot;Error &quot; + e);
+         }
+      }
+      else return super.action(evt, arg);
+      return true;
+   }
+   
+   private List links = new List(10, false);
+   Hashtable its_link = new Hashtable() ;
+
+private boolean readLinksFile()
+{
+
+  System.out.print (
+&quot;I am going to read in the list of links now. \n\n&quot;
+) ;
+
+  URL FileURL = null ;
+
+  try
+  {
+     FileURL = new URL ( getParameter(&quot;links_file&quot;) ) ;
+  }
+  catch (MalformedURLException e)
+  {
+     showStatus(&quot;Error &quot; + e) ;
+  }
+
+
+  try
+  {
+     InputStream in = FileURL.openStream() ;
+     DataInputStream din = new DataInputStream (in) ;
+     
+     String description = &quot;&quot; ;
+     String link        = &quot;&quot; ;
+
+     while (  ( description = din.readLine() ) != null )
+     {
+        if ( (link = din.readLine() ) != null )
+        {
+          link = &quot;http://&quot; + link ;
+          its_link.put (description, link) ;
+          links.addItem (description) ;
+          System.out.println (&quot;Description: &quot; + description) ;
+          System.out.println (&quot;Link:        &quot; + link + &quot;\n&quot;) ;
+        }
+     }
+
+  }
+  catch (IOException e)
+  {
+     showStatus(&quot;Error &quot; + e) ;
+  }
+
+  return true ;
+} // readLinksFile
+
+}
+</pre>
+
+
+<!--#include virtual="/common/navigation/footer.inc" -->
+
+
+</body>
+</html>

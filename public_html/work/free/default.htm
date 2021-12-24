@@ -1,0 +1,248 @@
+
+
+<h1>Free Software &amp; Tips</h1>
+
+
+<p>
+Click here for info on <a href="/work/com/">other work</a>,
+<a href="/resume/award.htm">awards received</a> and my <a href="/resume">resume</a>.<br />
+
+Some of the software below is now obsolete as new technologies have emerged.
+Some of the links below no longer work. I will update this page in the future.
+</p>
+<br clear="all" />
+
+<table border="1" cellspacing="1" cellpadding="5" width="100%">
+  <tr>
+    <td><a name="Cofax"></a> <font size="+2"><a
+href="http://www.cofax.org/">Cofax</a> - Content Management and Publishing for News Media Sites</font>
+<i>(Featured!)</i>
+<br />
+Cofax is a web-based text and multimedia publication system. It was designed to simplify the presentation of newspapers on the Web and to expedite real-time Web publication. 
+
+It was designed originally at Knight Ridder to serve the content for several of its newspapers, including its largest, the Philadelphia Inquirer and Philadelphia Daily News. Cofax was the tool it used to manage and build numerous web sites across its network for two years. Cofax source code and technologies continue to be an integral part of KR Digitals's current SDP content management system.
+
+Currently, Cofax is used across the world as an open source, scalable and powerful content management solution provided by numerous independent solution providers.
+
+Click here for the <a href="http://www.cofax.org/">Cofax web site</a>.
+
+    </td>
+  </tr>
+  <tr>
+    <td><a name="FolderWatcher"></a><a href="FolderWatcher/"><font size="+2">FolderWatcher</font></a>
+    runs as as a Unix Daemon or Windows NT service and watches a specified folder for new
+    incoming files or folders. As new files or folders appear inside the folder, it uses
+    dynamically loaded handler classes to take action on those files and folders. This is
+    often used to create <b>ftp drop folders</b> where whenever new files come in, they are
+    given to a processing program. This can also be used for content replication across
+    mirrorred servers. When one or more files in a watched folder change, the handler class
+    called can automatically copy them over to the mirror servers. (Source code and
+    instructions on installing it as a WinNT service provided.)</td>
+  </tr>
+  <tr>
+    <td><a name="SendMail"></a> <font size="+2">SendMail Java Class</font> <font
+    size="+1">(can also be used as an ASP Server Object to send mail from .ASP pages.)</font>
+    This object is used to send mail from Java programs. It is a fast, lightweight class,
+    ideal for web applications. (download precompiled <a href="SendMail/">class files &amp;
+    view installation instructions</a> on how to install this as an ASP server object) (view
+    source <a href="SendMail/tryit.java">tryit.java</a> - a program to test the class) (view
+    source <a href="SendMail/SendMail.java">SendMail.java</a>) (view source <a
+    href="SendMail/SendMailCouldNotDeliverException.java">SendMailCouldNotDeliverException.java</a>)
+    (view source <a href="SendMail/SendMailResponseException.java">SendMailResponseException.java</a>)
+    (view javadoc generated for the <a href="SendMail/COM.rajiv.net.SendMail.html">class</a>
+    &amp; the <a href="SendMail/AllNames.html">index</a>) (view source <a
+    href="SendMail/tryit.txt">tryit.asp</a> a VBScript ASP that uses this as a ASP component
+    to send mail from a web page.) </td>
+  </tr>
+  <tr>
+    <td><a name="inlclude_url"></a> <font size="+2">include_url.java</font> This program
+    overcomes a limitation of the .shtml <code>&lt;!--#include virtual=&quot;URL&quot; --&gt;</code>
+    tag that includes a URL from the same server into the page. This web server-side Java
+    object allows a page to include a remote URL in itself. <b>One of its uses is to get a
+    block of HTML from a remote ad server that includes a link to the advertiser, the ad
+    image, some accompanying text and even scripts and applets</b>. The commonly used method
+    of using an <code>&lt;img src=&quot;http://ad-server/cgi-bin/getad?name&quot;&gt;</code>
+    can only include an image, but nothing else around it. Combined with a cluster of ad
+    servers, this makes it possible to rotate ads of any type -- image, multimedia, html,
+    script, applet, anything. I wrote this as a tutorial on using Java with Active Server
+    Pages (ASP) to create ASP components in Java. However, this is not limited to ActiveX
+    technology and can be used with any web server that allows server side Java (even if via
+    CGI or shtml exec). (view source <a
+    href="view_source.asp?source=/work/free/include_url/include_url.asp">include_url.asp</a>)
+    (view source <a href="include_url/include_url.java">include_url.java</a>) <i>1997/Mar/11</i>
+    </td>
+  </tr>
+  <tr>
+    <td><a name="Date_Time"></a> <font size="+2"><a href="Date_Time/Date_Time.txt">Date_Time.pm</a></font>
+    Object oriented Date &amp; Time functions package for Perl 5.002 and above. (view source <a
+    href="Date_Time/test_Date_Time.txt">test_Date_Time</a> that shows hos to use it.) (<a
+    href="http://uc.rajiv.com/test_Date_Time.cgi">run test_Date_Time as a CGI</a>) <i>1996/May/28</i>
+    </td>
+  </tr>
+  <tr>
+    <td><a name="TourGuide"></a> <font size="+2">TourGuide.java</font>
+    Applet used as site map for naviagation. I wrote this in March '96 as a precursor to smart
+    agent that works as tour guide to a site. <!-- $begin using JavaScript to pop up a window --> (<a href="./"
+    onclick="guided_tour=window.open
+   (
+'TourGuide/TourGuide.PopUp.html', 'mainscreen',
+'scrollbars=yes,status=no,menubar=no,toolbar=no,resizable=yes,width=300,height=400'
+   )
+">run
+    applet</a>) <!-- $end using JavaScript to pop up a window --> (view source <a href="TourGuide/TourGuide.java.asp">TourGuide.java</a>) (view
+    data file <a href="TourGuide/TourGuide.links.txt">TourGuide.links.txt</a>) (download <a
+    href="TourGuide/TourGuide.class.dat">TourGuide.class.dat</a> in precompiled Java bytecode
+    form. Then rename it to remove the .dat extension for downloading.) To see how to use it,
+    see the html source of this page and of the <a href="TourGuide/TourGuide.PopUp.html">TourGuide.PopUp.html</a>
+    frame page it calls. The HTML source of this page also shows how to use JavaScript to pop
+    up a smaller window which can contain a navigation page. Instead of the applet above, the
+    page can contain simple text links or an imagemap. <i>1996/Mar/14</i> </td>
+  </tr>
+  <tr>
+    <td><a name="numbers_as_words"></a> <font size="+2">Numbers as Words</font> Object
+    oriented Perl package <code>Text::numbers</code> to display numbers as English words. For
+    example, the number 9872334 in words is <i>nine million, eight hundred seventy-two
+    thousand, three hundred thirty-four</i>. (view source <a
+    href="numbers_as_words/numbers.txt">numbers.pm</a>) (view source of <a
+    href="numbers_as_words/tryit.txt">tryit.pl</a> to test it.)
+    (run a <a href="http://uc.rajiv.com/work/free/numbers_as_words/demo.cgi">CGI demo</a>) </td>
+  </tr>
+  <tr>
+    <td><font size="+1">Visual J++ Macros to Comment-Out &amp; Uncomment
+    Blocks of Java Code</font> With these macros written for MS Visual Studio '97, you can
+    select a block of Java, Visual Basic, C++, or HTML code and automatically comment it out.
+    Then, you can select code again, and choose uncomment to remove the comment marks. Since
+    Java does not support conditional compilation, this is quite useful when developing Java
+    programs. For Java files, these macros place (or remove) a <code>//</code> at (from) the
+    beginning of each selected line. These macros know about and handle other languages like
+    VB, C++, HTML too. (view source <a href="vs97.dsm.txt">vs97.dsm</a>) </td>
+  </tr>
+  <tr>
+    <td><a name="ignore_case"></a> <font size="+2">Make your Unix based web server case
+    insensitive about URLs like NT </font>Many sites use a mixture of naming conventions
+    especially when many people work on the site. Also, when people upload files to the unix
+    servers from PCs or MACs, the case may vary depending on program used to transfer, it's
+    configuration, and the file name itself. Also, if your unix server shares a disk with an
+    NT server using Samba or NFS, and you want to make it searchable using MS Index Server or
+    NT based search program, this ensures that URLs will always work. It makes it easier for
+    you to give out your urls without saying &quot;with an uppercase P and a lowercase
+    u&quot;. If NT web servers do not care about case in URLs, why should unix ? (view source <a
+    href="ignore_case/make-dbm-of-urls.asp">make-dbm-of-urls</a> in Perl) (view source <a
+    href="ignore_case/not_found.txt">not_found.cgi</a> in Perl) This should be implemented as
+    server API for efficiency. Also, you will need to edit these programs to suit folder names
+    on your system. <br>
+    Also, note the smart &quot;not found&quot; error handler page. When a page is not found on
+    your server, it displays a message depending on how the was referred to the page. If you
+    had a bad link, it says to. If someone else had a bad link, it asks you to contact them,
+    not you. If they came from a bookmark or typed it in, then it tells them to check. <i>1996/Sep/22</i>
+    </td>
+  </tr>
+  <tr>
+    <td><a name="plusminus"></a> <a href="http://uc.rajiv.com/plusminus/"><font
+    size="+2">Plus/Minus or Expand/Collapse</font> demo</a><br>
+    Do you like the way &quot;Plus/Minus&quot; or &quot;Expand/Collapse&quot; works with
+    folders and other things in your Windows and Macintosh systems? Here is how you can
+    present your site visitors with the same simple, friendly navigation system they use for
+    folders and other things on their Macs and Windows. Such a view is especially handy when
+    each item may have several sub items and you don't want to show them all at once. <b>This
+    is implemented entirely on the server side using CGI or server API.</b> No client side
+    JavaScript, Java, ActiveX, or plug-in required. <i>1996/May</i> </td>
+  </tr>
+  <tr>
+    <td><a name="wserver"></a> <font size="+2">Find out <a
+    href="http://uc.rajiv.com/wserver.cgi">what web server software</a> </font>a web site is
+    running. (view source <a href="wserver.txt">wserver.cgi</a>) <i>1996/May</i> </td>
+  </tr>
+  <tr>
+    <td><a name="first_asp"></a> <font size="+2">Introduction to ASP</font> A simple
+    server-side VBScript demo using Active Server Pages (.asp) I wrote this as a demonstration
+    and introductory tutorial to ASP a few days after Microsoft announced this technology.
+    (run <a href="crc.asp">Random Colors</a>) (source code included in page) </td>
+  </tr>
+  <tr>
+    <td><a name="favorites_page"></a> <font size="+2">MS Internet Explorer Favorites on a web
+    page</font> This is useful when I'm in another office in the building from where (for
+    security) I don't allow connections to my workstation. So I point to my departmental web
+    server which shows me my MSIE bookmarks. (view source <a href="favorites.txt">favorites.pl</a>)
+    </td>
+  </tr>
+  <tr>
+    <td><font size="+1">Image Width &amp; Height Determination Functions</font><br />
+    <a name="gifsize"></a> <font size="+2"><a href="gifsize.txt">gifsize</a></font> by me
+    and <font size="+2"><a href="jpgsize.txt">jpgsize</a></font> by Stuart Curtis Lathrop are
+    Perl scripts to return an img src tag containing the width and height of a gif image. The
+    subroutine is part of a package that is used by my other programs to automatically include
+    gif sizes in the automatically posted newspapers, rotating advertisements from the ad
+    server, etc. <i>1994/Oct</i> </td>
+  </tr>
+  <tr>
+    <td><a name="split"></a> <font size="+2">Splits a big file into smaller files</font> This
+    is a useful Perl script when you need to transport a large file to another location and
+    you don't know what tools or operating systems you will have available at the other end.
+    Also, it is useful to transport something in smaller pieces over a slow modem connection
+    that often gets disconnected. (view <a href="split.txt">split.pl</a> source and
+    documentaion) <i>1994/Aug</i> </td>
+  </tr>
+  <tr>
+    <td><a name="go_to_ad"></a> <font size="+2">Advertisement Click Through and Logging</font><br>
+    A Perl script to log each click on an advertisement on a page. The logs are later analysed
+    by Ad-Master to find the click/view ratio for a page. (view source <a
+    href="AdManager/go-to-ad.txt">go-to-ad</a>) <i>Original: 1995/Dec. Updated: 1996/Jun</i> </td>
+  </tr>
+  <tr>
+    <td><a name="ad_rotation"></a> <font size="+2">Ad Rotation</font><br>
+    Note: This system is now on its way out and is being replaced by a SQL server based ad
+    management system.<br>
+    This (old system) can be used in any .shtml or .asp page. The source code of the
+    rotate_ads programs can be easily incorporated into your cgi scripts and server APIs so
+    that they can share the the ad rotation system with the .shtml/.asp pages.<br>
+    .shtml/.asp syntax for rotating one ad picked from .data file placed in folders folder1,
+    folder2, folder3 and folder4 (each folder contains 1 .data file): <code>&lt;!--#include
+    virtual=&quot;/cgi/rotate_ads?folder1+folder2+folder3+folder4&quot; --&gt;</code> To show
+    4 ads where an ad is picked from a .data file for each folder posN: <code>&lt;!--#include
+    virtual=&quot;/cgi/rotate_ads_p?pos1+pos2+pos3+pos4&quot; --&gt;</code> (view source <a
+    href="AdManager/rotate_ads.txt">rotate_ads</a>) (view source <a
+    href="AdManager/rotate_ads_p.txt">rotate_ads_p</a>) (using a &lt;p&gt; sepatrator between
+    the ads.) (view source <tt><b><a href="AdManager/ad_choose_and_show.txt">ad_choose_and_show.pl</a>)
+    <i>Created: 1995/Dec. Updated 1996/Sep</i> </b></tt></td>
+  </tr>
+  <tr>
+    <td><a name="netscape_20021"></a> <a
+    href="http://help.netscape.com/kb/server/960513-113.html">Netscape Communications
+    Technical Support Note 20021</a> <br>
+    When someone points their web browser to a directory on your server that does not have an
+    index file, the person sees a list of files in that directory. The Netscape Communications
+    and Commerce Servers (upto release 1.13) did not have an inbuilt feature to customize
+    this. This program written for Netscape made it possible. You can extend this to specify
+    which domain gets to see what type of files in your directories. (view source <a
+    href="netscape_20021/index.cgi.txt">index.cgi</a>) (read <a
+    href="netscape_20021/re-netscape-tn-20021.html">reply from Netscape Technical Support</a>)
+    (local copy of the <a href="netscape_20021/960513-113.html">note</a>) <i>1996/Feb</i> </td>
+  </tr>
+  <tr>
+    <td><a name="multiple_default_documents"></a> <font size="+2">The first solution to
+    multiple default documents with Microsoft IIS</font> This was a common request from many
+    ISPs and users who wanted to migrate sites from Unix to NT and wanted to have different
+    default documents for different clients on the same physical server. For a long time, this
+    program was the only solution available and was listed on the ASP Developers ASP and IIS
+    FAQs.<br>
+    Here is a program to enable your <em>MicroSoft Internet Information Server</em> <font
+    size="3"><strong>to recognise more than one default document</strong></font>. For example,
+    it can look for <font size="3"><strong>index.html</strong></font> first, if it does not
+    find that in the directory, it looks for <font size="3"><strong>default.htm</strong></font>,
+    if even that is not found, it can look for an <font size="3"><strong>index.shtml</strong></font>
+    server parsed document and so on. This was accomplished using Server-Side VBScript .ASP
+    program. I was writing an ISAPI version, but the beta version of Microsoft's upcoming IIS
+    4.0 has this built in. (view source <a
+    href="view_source.asp?source=/work/free/default-index.asp">default-index.asp</a>) </td>
+  </tr>
+  <tr>
+    <td><a name="toHex"></a> <font size="+2"><a href="toHex.java.asp">toHex.java</a></font> A
+    function in Java to convert integers (type <code>int</code>) to a hex string. This is one
+    of my early contributions to Java. Back in Jan '96, the <code>java.lang.Integer</code>
+    class lacked a <code>toHexString</code> method. This was a common request on Java
+    newgroups and web pages of Java developers. Instead of making a package, I just wrote a
+    function that people could cut and paste into their programs. Now that <code>java.lang.Integer</code>
+    has a <code>toHexString</code> method, this is obsolete. <i>1996/Feb/02</i> </td>
+  </tr>
+</table>

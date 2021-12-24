@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<!-- saved from url=(0394)http://api.bounceexchange.com/bounce/iframe_campaign/211238?mode=0&website_id=1424&device_type=d&pvid=1&visit_id=1456855382708902&device_id=5257911676839992012&height=728&w=32px&h=36px&width=1280&campaign_id=211238&cvt=1456855382&fsa=0&scale=1&pos=header_top&vars%5Buser_visits%5D=1&vars%5Bwaypoints_lib%5D=false&vars%5Bwaypoints_module_elements%5D=false&vars%5Bwaypoints_module_scroll%5D=false -->
+<html style="overflow:hidden"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">	
+		 
+		<title>Form</title>
+		
+		<script src="jquery.min.js" type="text/javascript"></script>
+					<script src="overlay.js"></script>
+				<style>
+		a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,dialog,div,dl,dt,em,embed,fieldset,figcaption,figure,font,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,hr,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,meter,nav,object,ol,output,p,pre,progress,q,rp,rt,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video,xmp{border:0;margin:0;padding:0}html,body{height:100%}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}b,strong{font-weight:700}img{color:transparent;font-size:0;vertical-align:middle;-ms-interpolation-mode:bicubic}li{display:list-item}table{border-collapse:collapse;border-spacing:0}th,td,caption{font-weight:400;vertical-align:top;text-align:left}q{quotes:none}q:before,q:after{content:none}sub,sup,small{font-size:75%}sub,sup{line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}svg{overflow:hidden}
+		</style>
+		<script>
+			var form_transition_effect = '';
+			var timers = [];
+			var errored =false;
+			var dont_wait = 0;
+			var initialized = false;
+
+			jQuery(window).load(function(){
+				if(errored){
+					XD.postMessage('failed');
+				}else{
+					XD.postMessage('loaded');
+				}
+				
+				XD.receiveMessage(function(message){
+					if (typeof message === 'string') {
+						var m = message.split('&');
+						message = m[0];
+						if(message=='bcx_pop'){
+
+							if(m[1]){
+								var cookie = m[1].split('cookie=')[1];
+								jQuery('[name=cookie]').val(cookie);
+							}
+
+							if (!initialized) {
+								initialized = true;
+						
+								if(timers && timers.length){
+									for(k in timers){
+										if(typeof(timers[k])=='function'){
+											timers[k]();
+										}
+									}
+								}
+															}	
+							
+																						
+							try{ 
+								validate_coupons_seen($('#step_0'));
+							} catch(e){
+								
+							}
+							
+						}
+					}
+				});
+			});
+			jQuery(document).ready(function(){
+				jQuery('a').bind('click.bcx',function(e){
+					e = $(this);
+					var goes_somewhere = e.attr('onclick') || e.attr('href');
+					if(goes_somewhere){
+						if(e.attr('onclick')&& e.attr('onclick').indexOf('bcx_close_ad')>-1){
+							
+						}else{
+							XD.postMessage('report_click');
+							if(e.attr('target')=='_top' && e.attr('href').indexOf('/')>0){
+
+								setTimeout(function(){
+									window.top.location = e.attr('href');
+								},300);
+								return false;
+							}
+						}
+					}
+					if(e.hasClass('close_after_click')){
+						XD.postMessage('bcx_close_ad');
+						if(!goes_somewhere)
+							return false;
+					}
+				});
+			});
+		</script>
+		
+		<link rel="stylesheet" href="bouncev2.cc0069615a.css">
+	</head>
+	<body id="bcx_frame_body" marginwidth="0" marginheight="0" leftmargin="0" topmargin="0">
+		<input type="hidden" value="211238" name="campaign_id" id="bcx_campaign_id">
+		<input type="hidden" value="http://digiday.com/publishers/new-york-times-vet-denise-warren-trying-modernize-tribune-publishing/" name="url" id="bcx_calling_url">
+		<input type="hidden" value="0" id="bouncex_close_timeout">
+	
+			<div class="bcx_f" id="bcx_form" style="width:;height:">
+							 <div style="display:block;z-index:1;width:100%;height:100%;" id="step_0" class="wmode wbefore">   <div class="form_slide">     <form action="http://api.bounceexchange.com/capture/submit" id="form_56d5d957f1609" method="post" onsubmit="submit_genie_form(this,0,1);return false">   <input type="hidden" value="0" name="m">   <input type="hidden" value="d" name="d">   <input type="hidden" value="english" name="lang">   <input type="hidden" value="0" name="last_step">   <input type="hidden" value="" name="cookie">   <input type="hidden" value="1" name="step">   <input type="hidden" value="before" name="step_name">   <input type="hidden" value="header_top" name="pos">   <input type="hidden" value="211238" name="campaign_id">   <input type="hidden" value="1456855382708902" name="visit_id">   <input type="hidden" value="5257911676839992012" name="device_id">   <input type="hidden" value="1" name="pvid">   <input type="hidden" value="http://digiday.com/publishers/new-york-times-vet-denise-warren-trying-modernize-tribune-publishing/" name="url">   <input type="hidden" value="1424" name="website_id">      <input type="hidden" value="1" name="var[user_visits]">        <input type="hidden" value="false" name="var[waypoints_lib]">        <input type="hidden" value="false" name="var[waypoints_module_elements]">        <input type="hidden" value="false" name="var[waypoints_module_scroll]">    <div class="bcx_el bg " id="bouncex_el_9" style="min-width:20px; min-height:20px; height:36px; width:32px;       font-family:Arial;   position:absolute;    z-index:0;   top:0;   left:0;  ">   <div name="9_name" style="      font-size:12px;   padding:0;        height:36px;      width:32px;          border-radius: 0;     background-color:transparent;     margin:0;      background-image:url(about:blank);   text-shadow: none;      box-shadow: none;   margin:0;        display:block;   ">        <img alt="" title="" width="32" height="36" onerror="errored=true;" border="0" src="h4AQqZWQ.png">    </div>      </div>      </form>  </div> </div>   			</div>
+		
+
+</body></html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<!-- saved from url=(0893)http://cdn.cxpublic.com/wsj-candybar-article.html?ref=http%3A%2F%2Fwww.wsj.com%2Farticles%2Ftribune-publishing-hires-nyt-veterans-for-digital-team-1447851600#media=html&sid=9222318613852486900&width=100%25&height=0&meta=%7B%22hasAd%22%3A%22n%22%2C%22referrer%22%3A%22googlecom%22%2C%22retina%22%3A%22y%22%2C%22subscriber%22%3A%22nonsubscriber%22%2C%22userExp%22%3A%22google_fcf%22%2C%22template%22%3A%22full%22%2C%22access%22%3A%22paid%22%2C%22section%22%3A%22Business%22%2C%22edition%22%3A%22naus%22%2C%22bucket%22%3A4%2C%22hasUid%22%3A%22n%22%2C%22ctp%22%3A%22xp02DV5%22%2C%22compete%22%3A%22other%22%2C%22extra3%22%3A%22DV5%22%2C%22ckeA%22%3A11%7D&resizeToContentSize=true&ctx=http%3A%2F%2Fwww.wsj.com%2Farticles%2Ftribune-publishing-hires-nyt-veterans-for-digital-team-1447851600&usi=ih4tejm0weecfhdi&rnd=2103980090&prnd=imbbv203my586iet&tzo=240&parentElementId=cxWidget_0.6304659256711602 -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script async="" type="text/javascript" id="cXJsonpCBimbbv3lf8r22jn9dscript" src=""></script>
+    <title>Cxense - WSJ Candy Bar </title>
+    <style type="text/css">
+        .template {display: none;}
+        html, body {margin:0;padding: 0;font-family: Arial, Helvetica, sans-serif;font-weight: normal;font-size: 13px; color: #ffffff;}
+        a, a:hover, a:visited, a:active { text-decoration: none;}
+        .footer {background-color:#000;width:100%;bottom:0;position:fixed;}
+        .footer-container { margin:0 auto;width:360px;cursor:pointer;}
+        .collapsed { height:50px; position:absolute;z-index:1}
+        .expanded{position:absolute;z-index:2}
+        img {border:none}
+        
+        @media all and (min-width: 1260px) {
+            .four, .eight, .twelve  {display:none}
+            .footer-container {width:1260px;}
+        }
+
+        @media all and (max-width: 1259px) and (min-width:995px) {
+            .four, .eight, .sixteen {display:none}
+            .footer-container{width:955px;}
+        }
+
+        @media all and (max-width: 994px) and (min-width: 636px) {
+            .four, .twelve, .sixteen {display:none}
+            .footer-container {width:635px;}
+        }
+
+        @media all and  (max-width: 635px) and (min-width: 360px) {
+            .eight, .twelve, .sixteen {display:none;}
+            .footer-container{width:360px;}
+         }
+         
+        @media all and  (max-width: 359px) {
+            .eight, .twelve, .sixteen {display: none;}
+            .footer-container {width: 100%;}
+            img {width: 100%;}
+        }
+
+    </style>
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="cx.js"></script>
+</head>
+
+<body xmlns:tmp="javascript:">
+<script type="text/javascript">
+    var states = {
+        'collapsed' : { height : 50 },
+        'expanded' : { height : 150 }
+    };
+
+    var styles = {
+        'four' :    { width :   '0', adWidth : '360' },
+        'eight' :   { width : '210', adWidth : '635'},
+        'twelve' :  { width : '325', adWidth : '955'},
+        'sixteen' : { width : '416', adWidth : '1260'}
+    };
+
+    var aliases = {
+        'four collapsed' : '360 default',
+        'four expanded' : '360 expanded',
+        'eight collapsed' : '635 default',
+        'eight expanded' : '635 expanded',
+        'twelve collapsed' : '955 default',
+        'twelve expanded' : '955 expanded',
+        'sixteen collapsed' : '1260 default',
+        'sixteen expanded' : '1260 expanded'
+    };
+
+    function getImage(ad, key) {
+        var posts = [''];
+
+        if (isRetina) {
+            posts = [' retina', ''];
+        }
+
+        for (var ix in posts) {
+            var p = posts[ix];
+
+            if (ad.creative && ad.creative.images && ad.creative.images.length) {
+                var images = ad.creative.images;
+                var lowerKey = key.toLowerCase();
+                for (var k = 0; k < images.length; k++) {
+                    var image = images[k];
+
+                    var actualKey = image.key.toLowerCase();
+
+                    if (actualKey === lowerKey + p) {
+                        return image.source;
+                    }
+
+                    if (actualKey === aliases[lowerKey] + p) {
+                        return image.source;
+                    }
+                }
+            }
+        }
+
+        return '';
+    }
+
+    function getContent(ad, key, defaultValue) {
+        if (ad.creative && ad.creative.content && ad.creative.content.length) {
+            var contents = ad.creative.content;
+            for (var k = 0; k < contents.length; k++) {
+                var content = contents[k];
+                if (content.key === key) {
+                    return content.value[0];
+                }
+            }
+        }
+        return defaultValue || '';
+    }
+
+    function getAd(data) {
+        if (data && data.searchResult && data.searchResult.spaces && data.searchResult.spaces[0] && data.searchResult.spaces[0].ads) {
+            var adSpace = data.searchResult.spaces[0];
+            if (adSpace.ads.length >= 1) {
+                return adSpace.ads[0];
+            }
+        }
+        return null;
+    }
+
+    var expanded = false;
+
+</script>
+
+<div class="footer">
+    <div id="targetElement" class="footer-container">
+    </div>
+</div>
+
+<div id="adOnlyCandyTemplate" class="template">
+    <!--%
+    var ad = data;
+    %-->
+
+    <a tmp:href="{{ad.clickUrl}}" target="_blank" tmp:id="{{&#39;cxad_&#39; + ad.id}}">
+        <!--%
+        for (var style in styles) {
+            var width = styles[style].adWidth;
+            %-->
+        <div tmp:class="{{style}}">
+            <div tmp:class="expanded"> <img tmp:src="{{getImage(ad, style + &#39; expanded&#39;)}}" width="{{width}}" height="{{states.expanded.height}}"></div>
+            <div tmp:class="collapsed"><img tmp:src="{{getImage(ad, style + &#39; collapsed&#39;)}}" width="{{width}}" height="{{states.collapsed.height}}"></div>
+        </div>
+        <!--%
+    } %-->
+    </a>
+</div>
+
+<script type="text/javascript">
+    var adData = null;
+    var meta = {};
+    var renderTemplateId = 'recsTemplate';
+    var spaces = {};
+
+    function onGotAdData(data) {
+        adData = data;
+
+        var ad = getAd(adData);
+
+        if (ad != null) {
+            var bgColor = getContent(ad, 'Background Color', '#000000');
+
+            $('.footer').css({'background-color': bgColor});
+
+            cX.library.renderTemplate('adOnlyCandyTemplate', 'targetElement', ad);
+
+            $('.footer').css({display : 'block', height: states.expanded.height });
+            cX.postMessageToParent('method=cxCandyResize&contentWidth=100%25&contentHeight=' + states.expanded.height + typeAttribute, '*');
+            cX.postMessageToParent('method=cxCandyShow' + typeAttribute, '*');
+
+            $('.footer').delay(5000).animate({
+                height: states.collapsed.height
+            }, 500, function() {
+                $('.expanded').fadeOut(150);
+                cX.postMessageToParent('method=cxCandyResize&contentHeight=' + states.collapsed.height + typeAttribute, '*');
+            });
+        }
+    }
+
+    function getAdSpaceId() {
+        var spaces = {};
+
+        if (host.indexOf('barrons.com') > -1) {
+            spaces = {
+                'naus': '000000016257655f',
+                'asia': '0000000162576569'
+            };
+        } else if ((host.indexOf('graphics.wsj.com') > -1) || (host.indexOf('graphicsdev.dowjones.net') > -1)){
+            spaces = {
+                'naus': '0000000162992549'
+            };
+        } else {
+            spaces = {
+                "naus": "000000016112644a",
+                "europe": "00000001611264ac",
+                "europetr": "00000001611265a0",
+                "asia": "0000000161126484",
+                "asiaindia": "00000001611264ea",
+                "asiakr": "0000000161126596",
+                "asiajp": "000000016112657f",
+                "asiaindo": "000000016112653e",
+                "asiacn": "000000016112649b",
+                "europeuk": "000000016154406d",
+                "nabr": "0000000161126493"
+            };
+        }
+        
+        if (spaces[meta.edition]) {
+            return spaces[meta.edition];
+        } else {
+            return spaces.naus;
+        }
+    }
+
+    var args = cX.library.parseHashArgs();
+    if (args.meta) {
+        meta = JSON.parse(args.meta);
+    }
+
+    var referrer = document.referrer || '';
+    var host = referrer.replace(/^https?:\/\//, '').split('/')[0];
+
+    if (meta.host) {
+        host = meta.host;
+    }
+    
+    var typeAttribute = (meta.template == 'full') ? '' : '&type=hp';
+    var isRetina = meta.retina === 'y';
+
+    var kTarget = 'wsj' + meta.subscriber;
+
+    if (meta.ctp) {
+        kTarget += ' wsjctp' + meta.ctp.toLowerCase();
+    }
+
+    if (meta.navSource) {
+        kTarget += ' wsjmod' + meta.navSource;
+    }
+
+    if (meta.k) {
+        kTarget += ' ' + meta.k;
+    }
+
+    var adSpaceId = getAdSpaceId();
+
+    cX.insertAdSpace({
+        adSpaceId: adSpaceId,
+        renderFunction: onGotAdData,
+        adUnitWidth: 1260,
+        adUnitHeight: 150,
+        initialHorizontalAdUnits: 1,
+        initialVerticalAdUnits: 1,
+        k: kTarget
+    });
+</script>
+
+</body></html>

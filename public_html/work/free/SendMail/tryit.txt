@@ -1,0 +1,46 @@
+<%@ Language=VBScript %>
+<HTML>
+<HEAD>
+<title>Testing SendMail ASP Component written in Java</title>
+</HEAD>
+<BODY>
+
+<h1>Testing SendMail ASP Component written in Java</h1>
+<pre>
+&lt;%
+
+' This sample VBScript ASP code shows how to use the SendMail
+' ASP component.
+
+
+mail_server = "mail.domain.com"
+
+from = "user@domain.com"
+to_address = "test@domain.com"
+
+headers = "From: User Testing &lt;user@domain.com&gt;" & vbCRLF & _
+	"To: Test Address &lt;test@domain.com&gt;" & vbCRLF & _
+	"Subject: This is a test message to test the SendMail class." 
+
+
+body = "This is line 1." & vbCRLF & _
+	"This is the 2nd line." & vbCRLF & _
+	"The third line." & vbCRLF & _
+	"Line number four." & vbCRLF & vbCRLF & _
+	" -- Signature line."
+
+Set mailer = Server.CreateObject ("COM.rajiv.net.SendMail")
+
+mailer.setSMTPServer (mail_server)
+
+mailer.setFrom (from)
+mailer.setTo (to_address)
+mailer.setHeaders (headers)
+mailer.setBody (body)
+
+mailer.deliver
+
+%&gt;
+</pre>
+</BODY>
+</HTML>

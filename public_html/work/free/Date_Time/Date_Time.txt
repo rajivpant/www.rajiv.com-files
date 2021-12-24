@@ -1,0 +1,404 @@
+# file name: Date_Time.pm
+# language: perl 5
+# author: Rajiv Pant (Betul)   betul@rajiv.com   http://rajiv.org
+
+# (c) 1996 Rajiv Pant (Betul)
+# Feel free to use this without any obligations to me or anyone else.
+# Version 1.02. 1996/May/28
+
+# description:
+#       Date and Time package
+
+
+package Date_Time ;
+
+require 5.002 ;
+
+use strict ;
+
+local ($[) = 0 ;        # start array index with 0 for this function
+                        # just in case the program has it set to 1.
+                
+
+$Date_Time::author = <<'';
+Rajiv Pant (Betul)   betul@rajiv.com   http://rajiv.org
+
+
+$Date_Time::VERSION = 1.02 ;    # 1.02 Fixed minor bug in yr method
+
+
+
+@Date_Time::month_names = qw { 
+
+January         February        March           April
+May             June            July            August
+September       October         November        December
+
+} ;
+
+
+
+# three letter abbriviations for the names of the months
+
+@Date_Time::months = @Date_Time::month_names ;
+grep (s/^(\w{3}).*$/$1/, @Date_Time::months) ;
+
+
+
+
+@Date_Time::names_of_days_of_week = qw {
+
+Sunday          Monday          Tuesday         Wednesday
+Thursday        Friday          Saturday
+
+} ;
+
+
+# three letter abbriviations for the names of the days of the week
+
+@Date_Time::days_of_week = @Date_Time::names_of_days_of_week ;
+grep (s/^(\w{3}).*$/$1/, @Date_Time::days_of_week) ;
+
+
+1 ;     # The modules needs to retun a true value
+
+
+
+
+# ---------------- functions ----------------
+
+sub new
+{
+my $self = {} ;
+my $class = shift ;
+
+my $arg = shift ;
+
+
+# TO DO: consider allowing multiple instead of using elsif
+#       that will let people combine yesterday and last_year
+
+if      ($arg =~ /yesterday/i)  { $self->{when} = -86400 ; }
+elsif   ($arg =~ /tomorrow/i)   { $self->{when} = +86400 ; }
+elsif   ($arg =~ /other.day[^\-\+\d]?([\+\-\d]+)/i)
+  {
+  $self->{when} = $1 * 86400 ;
+  }
+elsif   ($arg =~ /other.timestamp[^\-\+\d]?([\+\-\d]+)/i)
+  {
+  $self->{when} = $1 ;
+  }
+else
+  {
+  $self->{when} = 0 ;
+  }
+
+bless $self, $class ;
+} # end of sub new
+
+
+
+
+
+
+
+# public methods
+
+
+sub version { $Date_Time::VERSION }
+
+
+
+# the following methods return the day, month, year, hour, etc.
+
+
+# the following year_short method returns the current year minus 1900
+# it is the same as yr for dates less than the year 2000.
+# it is better to use yr to get the last two digits of the year
+
+# NOTE: this version of this library was written to deal with dates within
+#       a few hunderd years around 1996. this interval is usually all that
+#       my programs using this library need. i may add support for a wider
+#       range in a later release if people request. don't worry about
+#       future additions to this library -- they will not affect any of
+#       the existing public methods that you use.
+
+
+sub year_short
+{
+my $year_short = (&ctime)[5] ;
+($year_short =~ /^\d\d(\d\d)$/) && ($year_short = $1) ;
+$year_short ;
+}
+
+
+
+# returns all 4 digits of the year
+
+sub year
+{
+my $year = &year_short + 1900 ;
+}
+
+
+
+# use this yr method to get the last two digits of the year
+
+sub yr
+{
+my ($yr) = &year =~ /^\d\d(\d\d)$/ ;
+$yr ;
+}
+
+
+
+# returns number of the month as one or two digits
+# for eg. Sepetember is 9 October is 10
+
+sub month_number_short
+{
+(&ctime)[4] + 1 ;       # adding one because array subscripts start at 0 here
+}
+
+
+sub month_number
+{
+my $month_number_short = &month_number_short ;
+my $month_number = length ($month_number_short) == 1 ? 
+   '0'. $month_number_short : $month_number_short ;
+}
+
+
+
+# returns name of the month abbriviated to three letters with the
+# first letter uppercase and next two in lowercase. eg. Sep
+
+sub month
+{
+$Date_Time::months[&month_number - 1] ;
+                                # subtracting 1 because array subscripts
+                                # start at 0 here
+}
+
+
+# full name of the month
+
+sub month_name
+{
+$Date_Time::month_names[&month_number - 1] ;
+                                # subtracting 1 because array subscripts
+                                # start at 0 here
+}
+
+
+
+
+
+# returns the nth day of the year.
+# eg. January 1 is day 1, February 2 is the day 33
+
+sub nth_day_of_year
+{
+(&ctime)[7] ;
+}
+
+
+
+
+# returns the day of the month. days before the 10th are returned as
+# a single digit
+
+sub day_of_month_short
+{
+(&ctime)[3] ;
+}
+
+
+
+# same as day_of_month_short
+
+sub today_short
+{
+&day_of_month_short ;
+}
+
+
+
+
+# returns two digits for the day of the month.
+# days before the 10th begin with a 0 as in 09
+
+sub day_of_month
+{
+my $today_short = &today_short ;
+my $today = length ($today_short) == 1 ? '0'. $today_short : $today_short ;
+}
+
+
+
+# same as day_of_month
+
+sub day
+{
+&day_of_month ;
+}
+
+
+
+# same as day_of_month
+
+sub today
+{
+&day_of_month ;
+}
+
+
+
+
+# returns the number of the day of the week.
+# eg. Sunday = 1, Saturday = 7
+
+sub nth_day_of_week
+{
+(&ctime)[6] + 1 ;
+}
+
+
+
+# returns name of the day of the week abbriviated to three letters with the
+# first letter uppercase and next two in lowercase. eg. Mon
+
+sub day_of_week
+{
+$Date_Time::days_of_week[&nth_day_of_week - 1] ;
+                                # subtracting 1 because array subscripts
+                                # start at 0 here
+}
+
+
+# full name of the day of the week
+
+sub day_of_week_name
+{
+$Date_Time::names_of_days_of_week[&nth_day_of_week - 1] ;
+                                # subtracting 1 because array subscripts
+                                # start at 0 here
+}
+
+
+
+# same as day_of_week_name
+
+sub full_day_of_week
+{
+&day_of_week_name ;
+}
+
+
+
+
+
+
+# times of the day
+
+
+
+sub hour { (&ctime)[2] ; }
+
+# returns the hours as two digits
+
+sub hh
+{
+my $hour = &hour ;
+my $hh = length ($hour) == 1 ? '0'. $hour : $hour ;
+}
+
+sub hours { &hh ; }
+
+
+
+
+sub minute { (&ctime)[1] ; }
+
+# returns the minutes as two digits
+
+sub mm
+{
+my $minute = &minute ;
+my $mm = length ($minute) == 1 ? '0'. $minute : $minute ;
+}
+
+sub minutes { &mm ; }
+
+
+
+
+sub second { (&ctime)[0] ; }
+
+# returns the seconds as two digits
+ 
+sub ss 
+{
+my $second = &second ;
+my $ss = length ($second) == 1 ? '0'. $second : $second ;
+}
+
+sub seconds { &ss ; }
+
+
+
+
+
+
+
+# some nicely formatted combinations
+
+
+# eg. Saturday, March 16, 1996
+
+sub date_format_1
+{
+my $self = shift ;
+$self->day_of_week_name . ', ' .
+$self->month_name . ' ' . $self->day_of_month_short . ', ' . $self->year ;
+}
+
+
+
+# eg. 14:42:49
+
+sub time_format_1
+{
+my $self = shift ;
+$self->hour . ':' . $self->mm . ':' . $self->second ;
+}
+
+
+
+
+
+
+# private methods
+
+
+sub ctime
+{
+my $self = shift ;
+
+my $time = time + $self->{when} ;
+
+my 
+($seconds, $minutes, $hour, $day_of_month,
+ $month_number, $year_short, $nth_day_of_week, $nth_day_of_year,
+ $is_daylight_savings)
+
+ = localtime ($time) ;
+
+
+($seconds, $minutes, $hour, $day_of_month,
+ $month_number, $year_short, $nth_day_of_week, $nth_day_of_year,
+ $is_daylight_savings) ;
+
+} # --- end of sub ctime ---
+
+

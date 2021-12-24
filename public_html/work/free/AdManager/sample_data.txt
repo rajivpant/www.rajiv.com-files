@@ -1,0 +1,3 @@
+http://www.advertiser.com
+alt=Alternate Text for Advertisement Image
+

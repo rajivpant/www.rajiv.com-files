@@ -1,0 +1,212 @@
+# favorites.pl in my windows favorites folder.
+# How to share MS Explorer Favourites as a web page with other browsers.
+
+# Author: Rajiv Pant (Betul)  betul@rajiv.org  http://rajiv.org
+
+use CGI ;
+use Cwd ; # Gets the current working directory.
+
+$DEBUG = 0 ;
+
+
+# main section
+
+$cgi = new CGI ;
+
+print $cgi->header ;
+
+$FOLDER = $cgi->param('folder') ;
+
+
+# Just for some security, we check if the requested folder
+# is inside someone's Windows favorites folder.
+# You may change the line below to suit your system or needs.
+undef $FOLDER unless $FOLDER =~ /^C:\\WINNT\\Profiles\\\w+\\Favorites/i ;
+
+
+
+($SCRIPT_NAME_ONLY) = ($SCRIPT_NAME = $ENV{'SCRIPT_NAME'})  =~ m{^.*/(.*?)$} ;
+
+($FOLDER) = $ENV{'PATH_TRANSLATED'}	=~ /^(.*)\\$SCRIPT_NAME_ONLY$/i unless $FOLDER ;
+
+
+# The following folders under MSIE favorites are not my bookmarks.
+# They are system folders for my channels, links buttons, etc.
+
+@excluded_folders = qw(
+
+Channels
+Links
+
+) ;
+
+# Prepending the path to the root favorites folder to each excluded folder.
+grep $_ = $FOLDER . '\\' . $_ , @excluded_folders ;
+
+
+local $LEVEL ; # level of recursion into folders.
+
+&show_bookmarks_in_folder_recursively ($FOLDER) ;
+
+
+# end of main section
+
+
+sub show_bookmarks_in_folder_recursively
+{
+my $folder = shift ;
+local *FOLDER ;
+
+my $cwd = cwd() ;
+
+chdir $folder or print <<EOM;
+Could not change directory to folder $folder. Reason: $!
+<br>
+EOM
+
+
+++$LEVEL ; # We are now one level deeper into the folders.
+
+print <<EOM;
+<UL>
+EOM
+
+opendir FOLDER, $folder or print <<EOM;
+Could not open folder $folder. Reason: $!
+<br>
+EOM
+
+my @entries = grep $_ ne '.' && $_ ne '..', readdir FOLDER ;
+
+closedir FOLDER ;
+
+
+$DEBUG and print <<EOM;
+Advancing from $cwd to $folder.
+<br>
+EOM
+
+my $entry ;
+
+foreach $entry (@entries)
+{
+	if (-f "$folder/$entry" and $entry =~ /\.url$/i )
+	{
+		$DEBUG and print <<EOM;
+File $entry<br>
+EOM
+
+	# print '&nbsp;&nbsp;&nbsp;' x $LEVEL ;
+	print "<LI>\n" ;
+	&show_url ("$folder/$entry") ;
+	print "</LI>\n" ;
+
+	}
+	elsif (-d "$folder/$entry")
+	{
+		$DEBUG and print <<EOM;
+Folder $entry<br>
+EOM
+
+
+    next if grep "$folder\\$entry" eq $_ , @excluded_folders ;
+	
+	# print '&nbsp;&nbsp;&nbsp;' x $LEVEL ;
+	print "<LI>\n" ;
+    &show_folder ("$folder/$entry") ;
+	print "</LI>\n" ;
+	
+	&show_bookmarks_in_folder_recursively ("$folder/$entry") ;
+	}
+	
+} # end foreach
+
+$DEBUG and print <<EOM;
+Backing from $folder to $cwd.<br>
+EOM
+
+chdir $cwd ;
+
+--$LEVEL ; # We have now gone up one level in the folders.
+
+print <<EOM;
+</UL>
+EOM
+
+} # end sub show_bookmarks_in_folder_recursively
+
+
+
+
+
+
+sub show_folder
+{
+my $folder = shift ;
+my ($folder_name) = $folder =~ m{^.*[\\\/](.*)$}o ;
+
+$folder_urlencoded = encode_as_url ($folder) ;
+
+print <<EOM;
+<b>
+<a href="$SCRIPT_NAME?folder=$folder_urlencoded">$folder_name</a>
+</b>
+<br>
+EOM
+
+} # end of sub show_folder
+
+
+
+sub show_url
+{
+my $url_file = shift ;
+my $url ;
+
+my ($url_name) = $url_file =~ m{^.*[\\\/](.*)\.url$}io ;
+
+local *FILE ;
+
+open FILE, $url_file ;
+
+while (<FILE>)
+{
+	last if ($url) = /^URL=(.*)$/ ;
+}
+close FILE ;
+
+print <<EOM;
+<font size=-1>
+<a href="$url">$url_name</a>
+</font>
+<br>
+EOM
+
+} # end of sub show_url
+
+
+
+# ------------------------------------------------------------------------
+# NOTE: the following functions are from my use-cgi library -- Betul.
+
+
+# this subroutine converts the given string to it's url encoded form.
+# it converts everything but perl's \W and the space char. Even the &
+# is converted so that the encoded string may be saved as a nice file name.
+
+sub encode_as_url
+{
+($_) = @_ ; s/([^\w ])/&char_2_hex_digits($1)/eg ; s/ /+/g ; return $_ ;
+}
+
+
+
+# this returns the two digit hex code for the given character.
+# it is used by the encode_as_url subroutine
+
+sub char_2_hex_digits
+{
+my ($c, @hex_digit) = (ord($_[0]), ('0'..'9', 'a'..'f') ) ;
+return '%' . $hex_digit[$c >> 4] . $hex_digit[$c & 15] ;
+}
+

@@ -1,0 +1,192 @@
+# Program name: ad_choose_and_show.pl
+# Type: include file for perl programs
+# Author: Rajiv Pant (Betul)   betul@rajiv.com   http://rajiv.org
+
+# Version: 1.2. Updated for Perl 5. 1996/Sep
+
+# TO DO: Convert to .pm Perl module or Java
+# TO DO: use global datafile of ads related to words not local.
+
+srand (time | $$) ;
+
+sub ad_choose_and_show
+{
+my $WWW_URLs    = 'http|https|mailto|ftp|telnet|gopher|wais|news|snews' ;
+
+my $DocumentRoot        = '/web' ;
+my $AdsRoot             = 'advts' ;     # relative to DocumentRoot
+my $ad_data_dir         = 'data' ;      # relative to AdsRoot
+my $ad_images_dir       = 'images' ;    # relative to AdsRoot
+
+
+my $ad_logging_program_relative_url = '/programs/ads-to-go' ;
+
+my ($ads_dir, $number_of_ads_to_show, $how_to_show) = @_ ;
+my $ads_dir_path                = "$DocumentRoot/$AdsRoot/$ads_dir" ;
+
+my $err ;
+
+(-d $ads_dir_path) || ($err.=<<EOM
+<!-- the "$ads_dir" folder not found inside AdsRoot. -->
+EOM
+) ;
+
+chdir   ($ads_dir_path) ; # TO DO: save current dir and return before exit
+
+my @ads ;
+
+(opendir (DIR, $ads_dir_path)) ?
+(@ads = grep (/\.data$/oi, grep (-f, readdir(DIR)))) && closedir (DIR)
+: ($err .=<<EOM
+<!-- the "$ads_dir" folder inside AdsRoot could not be opened. -->
+EOM
+) ;
+
+my @ads_left = @ads ;
+
+my ($i, $ad_data, $ad_image, $ad_url) ;
+
+for ($i = 1 ; $i <= $number_of_ads_to_show ; $i++)
+{
+
+$ad_data        = $ads_left[rand($#ads_left+1)] ;
+$ad_image       = $ad_data ;
+$ad_image       =~ s/\.data$/.gif/ ;
+
+$err = '' ;
+
+$ad_data || ($err .=<<EOM
+<!-- the "$ads_dir" folder inside AdsRoot does not contain ad data files. -->
+EOM
+) ;
+
+(open (ADDATA, "$ads_dir_path/$ad_data")) || ($err .=<<EOM
+<!-- the ad data file "$ad_data" in the "$ads_dir" folder under AdsRoot could not be opened. -->
+EOM
+) ;
+
+my ($l, $alt_text) ;
+
+while (chop ($l = <ADDATA>))
+  {
+($l =~ /^$WWW_URLs:/) && ($ad_url = $l);
+($l =~ /^alt=/) && ($alt_text = $l) && ($alt_text =~ s/(^alt=|[^\w\s\[\]])//g);
+  }
+close (ADDATA) ;
+
+$ad_url || ($err .=<<EOM
+<!-- a valid url could not be found inside ad data file "$ad_data" -->
+EOM
+) ;
+
+
+my ($width, $height, $type) = 
+&gifsize ("$DocumentRoot/$AdsRoot/$ad_images_dir/$ad_image") ;
+
+($type eq 'GIF') || ($err .=<<EOM
+<!-- file "$ad_image" is not in gif format -->
+EOM
+) ;
+
+(($width < 3) || ($width > 600) || ($height < 3) || ($height > 600))
+ && ($err .=<<EOM
+<!-- unacceptable size for "$ad_image" width=$width height=$height -->
+EOM
+) ;
+
+
+if ($how_to_show eq 'image')
+{
+        print <<EOM;
+Content-type: image/gif
+
+EOM
+        local *IMAGE_FILE ;
+        my $buffer ;
+        open IMAGE_FILE, "$DocumentRoot/$AdsRoot/$ad_images_dir/$ad_image" 
+
+        or $err .= <<EOM;
+Ad image $DocumentRoot/$AdsRoot/$ad_images_dir/$ad_image not found.
+EOM
+
+        if ($err)
+        {
+        print $err ;
+        exit ;
+        }
+
+        else
+        {
+                while ( read ( IMAGE_FILE, $buffer, 16384 ) )
+                {
+                        print $buffer ;
+                }
+                close IMAGE_FILE ;
+        }
+
+}
+else
+{
+        $err ? print "\n\n", $err, "\n\n" 
+        : (print <<EOM
+<a href="$ad_logging_program_relative_url?$ad_url&image=$ad_image"><img border=0 
+ src="/$AdsRoot/$ad_images_dir/$ad_image" alt="$alt_text"
+ width=$width height=$height></a>
+$how_to_show
+EOM
+        ) ;
+}
+
+
+my @ads_shown_already ;
+my $number_of_ads_shown_already ;
+
+$ads_shown_already[$number_of_ads_shown_already++] = $ad_data ;
+
+my ($j, $k) ;
+
+if ($number_of_ads_to_show <= ($#ads+1))
+  {
+  $j = 0 ; @ads_left = () ;
+  foreach $k (@ads)
+     {
+     $ads_left[$j++] = $k unless (&inarray($k, @ads_shown_already) == 1) ;
+     } # eo foreach $k
+  } # eo if 
+
+} # end for $i = 1 to $number_of_ads_to_show
+
+} # eo &choose_and_show_ad
+
+
+sub inarray
+{
+my ($t, @arr) = @_ ;
+my ($tt, $m) = ('',0) ;
+ 
+foreach $tt (@arr)
+  {
+  ($t eq $tt) && ($m = 1) ;
+  }
+return $m ;
+} # end sub inarray
+
+
+sub gifsize
+{
+my ($gif, $w, $w2, $h, $h2, $gifwidth, $gifsize, $type) = () ;
+($gif) = @_ ;
+open (GIF, $gif) ; read (GIF, $type, 3) ;
+seek (GIF, 6, 0) ; read (GIF, $w,  1) ;
+read (GIF, $w2, 1) ;
+$width  = ord ($w) + ord ($w2) * 256 ;
+read (GIF, $h,  1) ; read (GIF, $h2, 1) ;
+$height = ord ($h) + ord ($h2) * 256 ;
+close (GIF) ;
+return ($width, $height, $type) ;
+} # eo &gifsize
+
+
+
+1 ;
+
