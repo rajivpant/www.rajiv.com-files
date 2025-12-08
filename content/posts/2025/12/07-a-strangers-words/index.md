@@ -14,7 +14,7 @@ tags:
 author: Rajiv Pant
 wordpress:
   post_id: 6855
-  synced_at: '2025-12-08T05:32:49.295Z'
+  synced_at: '2025-12-08T05:38:05.788Z'
   category_ids:
     - 1
   tag_ids:
@@ -23,7 +23,7 @@ wordpress:
     - 727048740
 ---
 
-![Fitz in Victorian costume on stage with two adult actors](./a-strangers-words/IMG_1517.jpeg)
+![Fitz in Victorian costume on stage with two adult actors](./IMG_1517.jpeg)
 
 ## Part One: The Train to Connecticut
 
@@ -39,7 +39,7 @@ That's my son, Fitz.
 
 I called him this morning to congratulate him. He mentioned he had two shows today—a 2pm matinee and a 6:30 call time for the evening performance. When he said 6:30, I realized I could make it.
 
-![Fitz's program bio with headshot and his own words](./a-strangers-words/IMG_1496.jpeg)
+![Fitz's program bio with headshot and his own words](./IMG_1496.jpeg)
 
 I've read plenty of words about Fitz—report cards, teacher comments, texts from his mom and stepdad. But this was different. A stranger watched him perform, knew nothing about him except what she saw on stage, and wrote that he brought something to a role that is "rarely, if ever, part of his story."
 
@@ -53,11 +53,11 @@ Fitz doesn't know I'm coming. I called his stepdad Pete this afternoon—he and 
 
 It's Sunday morning. I'm still processing what I saw.
 
-![Selfie with packed audience behind, before the show](./a-strangers-words/IMG_1511.jpeg)
+![Selfie with packed audience behind, before the show](./IMG_1511.jpeg)
 
 I arrived at the theater a little early, wanting to stay low-key. I mentioned to a few people that my son was in the show, but I didn't want to draw attention to myself. Pete had already dropped Fitz off and headed home. Julie asked if I could drive Fitz back after the show. So it was just me, alone in the audience, waiting for the lights to dim.
 
-![Rajiv by the spiral staircase that was part of the set](./a-strangers-words/IMG_1493.jpeg)
+![Rajiv by the spiral staircase that was part of the set](./IMG_1493.jpeg)
 
 My seat was in the third row, far left corner, right next to a spiral staircase that turned out to be part of the set. Throughout the show, the narrator and other characters climbed those stairs to deliver lines—sometimes just a few feet from where I sat. But Fitz's roles never brought him to that staircase. A small mercy. I didn't want him to spot me and lose focus.
 
@@ -67,13 +67,13 @@ I found myself in an odd position: wanting desperately to watch my son, to take 
 
 ### What I Saw
 
-![Cast list showing Fitz Pant playing Tiny Tim, Young Jacob Marley & Ensemble](./a-strangers-words/IMG_1494.jpeg)
+![Cast list showing Fitz Pant playing Tiny Tim, Young Jacob Marley & Ensemble](./IMG_1494.jpeg)
 
 Fitz played two named roles—Young Jacob Marley and Tiny Tim—plus ensemble parts, some with speaking lines. Multiple costume changes. The program listed him as "Fitz Pant (Tiny Tim, Young Jacob Marley & Ensemble)."
 
 I've seen him perform before. School plays, community theater. But this felt different.
 
-![Fitz in Victorian costume with two adult actors, holding champagne glass prop](./a-strangers-words/IMG_1517.jpeg)
+![Fitz in Victorian costume with two adult actors, holding champagne glass prop](./IMG_1517.jpeg)
 
 This was the first time I watched him in a serious role that wasn't written for children. He wasn't a kid playing a kid's part. He was a character in the story—a real character, with weight and purpose in the plot. The person Young Marley becomes as an adult was played by someone else, but the foundation of that character, the innocence that would later curdle into greed, that was Fitz's work to establish.
 
@@ -89,11 +89,11 @@ I don't know how to describe what that felt like. I'm not sure I need to.
 
 ### The Surprise
 
-![Curtain call with cast waving, Fitz visible](./a-strangers-words/IMG_1520.jpeg)
+![Curtain call with cast waving, Fitz visible](./IMG_1520.jpeg)
 
 After the curtain call, one of the ushers found Fitz backstage and told him there was a surprise waiting for him. Gave him a hint. He figured it out.
 
-![Rajiv and Fitz together after the show, both beaming](./a-strangers-words/IMG_1522.jpeg)
+![Rajiv and Fitz together after the show, both beaming](./IMG_1522.jpeg)
 
 He came out and saw me. Gave me a hug. He was beaming.
 

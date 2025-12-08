@@ -5,7 +5,7 @@
 This repository serves two purposes:
 
 1. **Static Archive**: Historical content and static files linked from rajiv.com (in `public_html/`)
-2. **Blog Post Management**: Markdown source files for rajiv.com blog posts (in `content/articles/`)
+2. **Blog Post Management**: Markdown source files for rajiv.com blog posts (in `content/posts/`)
 
 ## Repository Ecosystem
 
@@ -42,14 +42,19 @@ www.rajiv.com-files/
 │   └── common/             # Shared templates and assets
 │
 ├── content/                # Blog post source files
-│   └── articles/           # Markdown source files
-│       ├── some-post.md    # Article in markdown
-│       └── some-post.json  # ownwords metadata (auto-generated)
+│   ├── posts/              # Hierarchical: YYYY/MM/DD-slug/index.md
+│   │   └── 2025/
+│   │       └── 12/
+│   │           └── 07-a-strangers-words/
+│   │               ├── index.md       # Article markdown
+│   │               ├── index.json     # ownwords metadata
+│   │               └── *.jpg          # Co-located images
+│   └── pages/              # Static pages: slug/index.md (future)
 │
 ├── raw/                    # ownwords fetch output (HTML from WordPress)
 │   └── some-post.html      # Fetched WordPress HTML
 │
-├── articles/               # Generated HTML (local preview only)
+├── articles/               # Generated HTML (local preview only, gitignored)
 │   └── some-post/
 │       └── index.html
 │
@@ -86,14 +91,10 @@ The build script generates:
 # From this repo directory
 cd ~/projects/my-projects/rajiv-site
 
-# Fetch article HTML from WordPress
-ownwords fetch https://rajiv.com/blog/2025/01/15/article-slug/
+# Fetch article with hierarchical structure (recommended)
+ownwords fetch https://rajiv.com/blog/2025/01/15/article-slug/ --api --hierarchical --output-dir=./content
 
-# Convert to markdown
-ownwords convert ./raw/article-slug.html ./content/articles/article-slug.md
-
-# Verify conversion quality
-ownwords verify ./raw/article-slug.html ./content/articles/article-slug.md
+# This creates: content/posts/2025/01/15-article-slug/index.md
 
 # Build to generate WordPress export
 npm run build
@@ -101,7 +102,12 @@ npm run build
 
 ### Creating a New Article
 
-1. Create a new markdown file in `content/articles/`:
+1. Create a new directory and markdown file:
+   ```bash
+   mkdir -p content/posts/2025/01/15-your-article-slug
+   ```
+
+2. Create `content/posts/2025/01/15-your-article-slug/index.md`:
    ```markdown
    ---
    title: "Your Article Title"
@@ -119,12 +125,14 @@ npm run build
    Your article content in markdown...
    ```
 
-2. Build to generate WordPress export:
+3. Place any images in the same directory as `index.md`
+
+4. Build to generate WordPress export:
    ```bash
    npm run build
    ```
 
-3. Copy content from `wordpress-export/your-article-slug.html` to WordPress
+5. Copy content from `wordpress-export/your-article-slug.html` to WordPress
 
 ### Publishing Back to WordPress
 
@@ -140,7 +148,7 @@ After editing a markdown file:
 
 Required fields:
 - `title`: Article title
-- `slug`: URL slug (must match filename without .md)
+- `slug`: URL slug (must match directory name suffix)
 - `date`: Publication date (YYYY-MM-DD)
 - `canonical_url`: Full URL on rajiv.com
 
@@ -181,10 +189,11 @@ This repo is separate from synthesis-coding-site and ownwords. Do NOT mix commit
 
 The following are generated and should not be committed:
 - `node_modules/`
-- `articles/` (generated preview HTML)
+- `articles/` (generated preview HTML - WordPress is source of truth)
 - `wordpress-export/` (generated WordPress HTML)
 
 The following should be committed:
-- `content/articles/*.md` (source markdown)
-- `content/articles/*.json` (ownwords metadata for sync tracking)
+- `content/posts/**/*.md` (source markdown)
+- `content/posts/**/*.json` (ownwords metadata for sync tracking)
+- `content/posts/**/*.jpg` (co-located images)
 - `raw/*.html` (fetched WordPress HTML for reference)
