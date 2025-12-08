@@ -1,15 +1,26 @@
 ---
-title: "A Stranger's Words"
-slug: "a-strangers-words"
-date: "2025-12-07"
-description: "A theater reviewer wrote about my son's performance. She didn't know she was writing about my kid."
-canonical_url: "https://rajiv.com/blog/2025/12/07/a-strangers-words/"
-category: "Personal"
+title: A Stranger's Words
+slug: a-strangers-words
+date: '2025-12-07'
+description: >-
+  A theater reviewer wrote about my son's performance. She didn't know she was
+  writing about my kid.
+canonical_url: 'https://rajiv.com/blog/2025/12/07/a-strangers-words/'
+category: Personal
 tags:
-  - "fatherhood"
-  - "theater"
-  - "family"
-author: "Rajiv Pant"
+  - fatherhood
+  - theater
+  - family
+author: Rajiv Pant
+wordpress:
+  post_id: 6855
+  synced_at: '2025-12-08T05:32:49.295Z'
+  category_ids:
+    - 1
+  tag_ids:
+    - 727048741
+    - 727048491
+    - 727048740
 ---
 
 ![Fitz in Victorian costume on stage with two adult actors](./a-strangers-words/IMG_1517.jpeg)
