@@ -2,7 +2,7 @@
 title: A Stranger's Words
 slug: a-strangers-words
 date: '2025-12-07'
-description: "A theater reviewer wrote about my son's performance. She didn't know she was writing about my kid."
+description: A theater reviewer wrote about my son's performance. She didn't know she was writing about my kid.
 canonical_url: 'https://rajiv.com/blog/2025/12/07/a-strangers-words/'
 category: Personal
 tags:
@@ -12,7 +12,7 @@ tags:
 author: Rajiv Pant
 wordpress:
   post_id: 6855
-  synced_at: '2025-12-08T07:27:37.054Z'
+  synced_at: '2025-12-08T15:15:48.139Z'
   category_ids:
     - 1
   tag_ids:
