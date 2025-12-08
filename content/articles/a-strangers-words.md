@@ -16,7 +16,7 @@ author: "Rajiv Pant"
 
 ## Part One: The Train to Connecticut
 
-I'm on a train to Connecticut, and I just read a theater review in the New Haven Arts Paper.
+I'm on a train to Connecticut. It's Saturday afternoon, and I'm thinking about a theater review I read this morning.
 
 The reviewer, a high school junior named Ruby Szekeres writing for the Youth Arts Journalism Initiative, covered the world premiere of *Scrooge and Marley* at Legacy Theatre in Branford. The show reimagines *A Christmas Carol* from Jacob Marley's perspective—exploring how he became the man whose ghost sets Dickens' story in motion.
 
@@ -26,9 +26,11 @@ She wrote this about one of the young actors:
 
 That's my son, Fitz.
 
+I called him this morning to congratulate him. He mentioned he had two shows today—a 2pm matinee and a 6:30 call time for the evening performance. When he said 6:30, I realized I could make it.
+
 ![Fitz's program bio with headshot and his own words](./a-strangers-words/IMG_1496.jpeg)
 
-I've read plenty of words about Fitz—report cards, teacher comments, texts from his mom. But this was different. A stranger watched him perform, knew nothing about him except what she saw on stage, and wrote that he brought something to a role that is "rarely, if ever, part of his story."
+I've read plenty of words about Fitz—report cards, teacher comments, texts from his mom and stepdad. But this was different. A stranger watched him perform, knew nothing about him except what she saw on stage, and wrote that he brought something to a role that is "rarely, if ever, part of his story."
 
 Not a parent's proud assessment. Not a relative being kind. A reviewer doing her job.
 
@@ -36,9 +38,9 @@ Fitz doesn't know I'm coming. I called his stepdad Pete this afternoon—he and 
 
 ---
 
-## Part Two: The Train Back to New York
+## Part Two: What I Saw
 
-I'm on the train back to Manhattan now, and I'm still processing what I saw.
+It's Sunday morning. I'm still processing what I saw.
 
 ![Selfie with packed audience behind, before the show](./a-strangers-words/IMG_1511.jpeg)
 
@@ -94,17 +96,13 @@ In the car, he told me multiple times how happy he was that I came. How surprise
 
 I don't remember exactly what I said back. Probably something inadequate. But I remember thinking: this is it. This is the stuff that matters. Not the performance, not the review—this. A car ride. A conversation. A kid telling his dad he's glad he showed up.
 
-The next morning, Julie texted me. She said my being there meant a lot to Fitz.
-
-A little while later, I saw a message from Fitz himself, asking if I'd gotten home safely.
-
 ---
 
-## The Stranger's Eyes
+## Part Three: The Stranger's Eyes
 
 I started this post talking about a stranger's words. A reviewer who watched my son perform and wrote professionally about what she saw. That moment—reading her assessment on a train, realizing she had no idea whose son she was describing—that's what set all of this in motion.
 
-But now, on the train home, I'm thinking about something else.
+I'm on a flight to Florida for work. And I'm thinking about something else.
 
 There's a particular kind of loss that comes with raising a child. Not a sad loss—a necessary one. The loss of being the center of their universe. The loss of being the only one who sees them clearly.
 
@@ -125,6 +123,10 @@ I didn't teach him to act. I can't sing. I have no wisdom about the theater. Wha
 But I showed up. I took a train to Connecticut to watch him without telling him I was coming. I sat in the third row, in the far corner, and I watched.
 
 Sometimes that's all you can do. Sometimes that's enough.
+
+The next morning, Julie texted me. She said my being there meant a lot to Fitz.
+
+A little while later, I saw a message from Fitz himself, asking if I'd gotten home safely.
 
 ---
 
