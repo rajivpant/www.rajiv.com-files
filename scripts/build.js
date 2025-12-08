@@ -21,7 +21,7 @@ const { marked } = require('marked');
 
 // Configuration
 const ROOT_DIR = path.join(__dirname, '..');
-const CONTENT_DIR = path.join(ROOT_DIR, 'content', 'articles');
+const CONTENT_DIR = path.join(ROOT_DIR, 'content');
 const OUTPUT_DIR = path.join(ROOT_DIR, 'articles');
 const WORDPRESS_EXPORT_DIR = path.join(ROOT_DIR, 'wordpress-export');
 const TEMPLATES_DIR = path.join(ROOT_DIR, 'templates');
@@ -29,8 +29,44 @@ const TEMPLATES_DIR = path.join(ROOT_DIR, 'templates');
 const SITE_URL = 'https://rajiv.com';
 const WORDS_PER_MINUTE = 225;
 
-// Custom renderer to put language class on <pre> for Prism.js
+// Custom renderer for WordPress-compatible output
 const renderer = new marked.Renderer();
+
+// Image renderer: wraps in figure with optional figcaption, adds responsive styles
+renderer.image = function(token) {
+  let src, alt, title;
+  if (typeof token === 'object') {
+    src = token.href || '';
+    alt = token.text || '';
+    title = token.title || '';
+  } else {
+    src = token;
+    alt = arguments[1] || '';
+    title = arguments[2] || '';
+  }
+
+  // Escape HTML in alt and title
+  const escapeHtml = (str) => str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+
+  const escapedAlt = escapeHtml(alt);
+  const escapedTitle = title ? escapeHtml(title) : '';
+
+  // Use </p> prefix and <p> suffix to break out of paragraph context
+  // This ensures figure is a block-level element, not wrapped in <p>
+  let html = '</p><figure class="wp-block-image">';
+  html += `<img src="${src}" alt="${escapedAlt}" style="max-width: 100%; height: auto;" loading="lazy" />`;
+  if (escapedTitle) {
+    html += `<figcaption>${escapedTitle}</figcaption>`;
+  }
+  html += '</figure><p>';
+  return html;
+};
+
+// Code renderer: put language class on <pre> for Prism.js
 renderer.code = function(codeBlock) {
   let code, language;
   if (typeof codeBlock === 'object') {
@@ -57,6 +93,62 @@ marked.setOptions({
   mangle: false,
   renderer: renderer
 });
+
+/**
+ * Find all content files (supports hierarchical structure)
+ * Returns array of { filePath, slug, contentDir }
+ */
+function findContentFiles() {
+  const results = [];
+  const postsDir = path.join(CONTENT_DIR, 'posts');
+
+  if (fs.existsSync(postsDir)) {
+    walkHierarchicalPosts(postsDir, results);
+  }
+
+  return results;
+}
+
+/**
+ * Walk hierarchical posts directory: posts/YYYY/MM/DD-slug/index.md
+ */
+function walkHierarchicalPosts(postsDir, results) {
+  const years = fs.readdirSync(postsDir).filter(f => {
+    const fullPath = path.join(postsDir, f);
+    return fs.statSync(fullPath).isDirectory() && /^\d{4}$/.test(f);
+  });
+
+  for (const year of years) {
+    const yearDir = path.join(postsDir, year);
+    const months = fs.readdirSync(yearDir).filter(f => {
+      const fullPath = path.join(yearDir, f);
+      return fs.statSync(fullPath).isDirectory() && /^\d{2}$/.test(f);
+    });
+
+    for (const month of months) {
+      const monthDir = path.join(yearDir, month);
+      const daySlugDirs = fs.readdirSync(monthDir).filter(f => {
+        const fullPath = path.join(monthDir, f);
+        return fs.statSync(fullPath).isDirectory() && /^\d{2}-/.test(f);
+      });
+
+      for (const daySlugDir of daySlugDirs) {
+        const articleDir = path.join(monthDir, daySlugDir);
+        const indexMd = path.join(articleDir, 'index.md');
+
+        if (fs.existsSync(indexMd)) {
+          // Extract slug from "DD-slug" format
+          const slug = daySlugDir.substring(3);
+          results.push({
+            filePath: indexMd,
+            slug,
+            contentDir: articleDir
+          });
+        }
+      }
+    }
+  }
+}
 
 /**
  * Calculate reading time from content
@@ -192,6 +284,8 @@ function generateWordPressHtml(article) {
     /src="\.\/images\//g,
     `src="${SITE_URL}/wp-content/uploads/`
   );
+  // Clean up empty paragraph tags left by figure extraction
+  html = html.replace(/<p><\/p>\n?/g, '');
   return html;
 }
 
@@ -208,8 +302,9 @@ function validateArticle(article, filePath) {
   if (!frontMatter.date) errors.push(`Missing required field: date`);
   if (!frontMatter.canonical_url) errors.push(`Missing required field: canonical_url`);
 
+  // For index.md files in hierarchical structure, don't check filename match
   const filename = path.basename(filePath, '.md');
-  if (frontMatter.slug && frontMatter.slug !== filename) {
+  if (filename !== 'index' && frontMatter.slug && frontMatter.slug !== filename) {
     errors.push(`Slug "${frontMatter.slug}" does not match filename "${filename}"`);
   }
 
@@ -238,21 +333,20 @@ function ensureDirectories() {
  * Copy article assets (images) to output directory
  * Returns number of files copied
  */
-function copyArticleAssets(slug, articleDir) {
-  const assetsDir = path.join(CONTENT_DIR, slug);
-  if (!fs.existsSync(assetsDir)) {
+function copyArticleAssets(sourceDir, destDir) {
+  if (!fs.existsSync(sourceDir)) {
     return 0;
   }
 
-  const files = fs.readdirSync(assetsDir);
+  const files = fs.readdirSync(sourceDir);
   let copied = 0;
 
   for (const file of files) {
-    const srcPath = path.join(assetsDir, file);
-    const destPath = path.join(articleDir, file);
+    const srcPath = path.join(sourceDir, file);
+    const destPath = path.join(destDir, file);
 
-    // Only copy files, not directories
-    if (fs.statSync(srcPath).isFile()) {
+    // Only copy image files, not .md or .json
+    if (fs.statSync(srcPath).isFile() && !file.endsWith('.md') && !file.endsWith('.json')) {
       fs.copyFileSync(srcPath, destPath);
       copied++;
     }
@@ -263,12 +357,11 @@ function copyArticleAssets(slug, articleDir) {
 
 /**
  * Rewrite image paths in HTML for local preview
- * Changes ./slug/image.jpg to just image.jpg (since assets are copied to same dir)
+ * Changes ./image.jpg to just image.jpg (since assets are copied to same dir)
  */
-function rewriteImagePathsForPreview(html, slug) {
-  // Match src="./slug/filename" and replace with src="filename"
-  const pattern = new RegExp(`src="\\./${slug}/([^"]+)"`, 'g');
-  return html.replace(pattern, 'src="$1"');
+function rewriteImagePathsForPreview(html) {
+  // Match src="./filename" and replace with src="filename"
+  return html.replace(/src="\.\/([^"]+)"/g, 'src="$1"');
 }
 
 /**
@@ -279,27 +372,26 @@ function build() {
 
   if (!fs.existsSync(CONTENT_DIR)) {
     console.log('📁 No content directory found. Creating empty structure...');
-    fs.mkdirSync(CONTENT_DIR, { recursive: true });
-    console.log('✅ Created content/articles/ directory');
+    fs.mkdirSync(path.join(CONTENT_DIR, 'posts'), { recursive: true });
+    console.log('✅ Created content/posts/ directory');
     console.log('\nTo add articles:');
     console.log('  1. Use ownwords to fetch from rajiv.com:');
-    console.log('     ownwords fetch https://rajiv.com/blog/YYYY/MM/DD/slug/');
-    console.log('  2. Convert to markdown:');
-    console.log('     ownwords convert ./raw/slug.html ./content/articles/slug.md');
-    console.log('  3. Run build:');
+    console.log('     ownwords fetch https://rajiv.com/blog/YYYY/MM/DD/slug/ --api --hierarchical --output-dir=./content');
+    console.log('  2. Run build:');
     console.log('     npm run build\n');
     return;
   }
 
-  const files = fs.readdirSync(CONTENT_DIR).filter(f => f.endsWith('.md'));
+  const contentFiles = findContentFiles();
 
-  if (files.length === 0) {
-    console.log('📝 No markdown files found in content/articles/');
-    console.log('\nTo add articles, use ownwords to fetch and convert from rajiv.com\n');
+  if (contentFiles.length === 0) {
+    console.log('📝 No markdown files found in content/posts/');
+    console.log('\nTo add articles, use ownwords to fetch from rajiv.com:');
+    console.log('  ownwords fetch https://rajiv.com/blog/YYYY/MM/DD/slug/ --api --hierarchical --output-dir=./content\n');
     return;
   }
 
-  console.log(`📄 Found ${files.length} article(s)\n`);
+  console.log(`📄 Found ${contentFiles.length} article(s)\n`);
 
   ensureDirectories();
 
@@ -313,9 +405,9 @@ function build() {
   const articles = [];
   let hasErrors = false;
 
-  for (const file of files) {
-    const filePath = path.join(CONTENT_DIR, file);
-    console.log(`  Processing: ${file}`);
+  for (const { filePath, slug, contentDir } of contentFiles) {
+    const relativePath = path.relative(ROOT_DIR, filePath);
+    console.log(`  Processing: ${relativePath}`);
 
     try {
       const article = parseMarkdownFile(filePath);
@@ -339,9 +431,9 @@ function build() {
       }
 
       // Copy article assets (images) and rewrite paths
-      const assetsCopied = copyArticleAssets(article.frontMatter.slug, articleDir);
+      const assetsCopied = copyArticleAssets(contentDir, articleDir);
       if (assetsCopied > 0) {
-        articleHtml = rewriteImagePathsForPreview(articleHtml, article.frontMatter.slug);
+        articleHtml = rewriteImagePathsForPreview(articleHtml);
       }
 
       fs.writeFileSync(path.join(articleDir, 'index.html'), articleHtml);
