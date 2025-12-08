@@ -1,6 +1,6 @@
 {
   "site": "https://rajiv.com",
-  "lastUpdated": "2025-12-08T05:32:47.480Z",
+  "lastUpdated": "2025-12-08T07:26:15.058Z",
   "uploaded": {
     "./a-strangers-words/IMG_1517.jpeg": {
       "mediaId": 6852,
@@ -43,6 +43,48 @@
       "url": "https://rajiv.com/wp-content/uploads/2025/12/IMG_1522.jpeg",
       "hash": "8a306aba92c39f34fa7b8eec2ac7cbed",
       "uploadedAt": "2025-12-08T05:32:47.487Z"
+    },
+    "./IMG_1517.jpeg": {
+      "mediaId": 6862,
+      "url": "https://rajiv.com/wp-content/uploads/2025/12/IMG_1517-3.jpeg",
+      "hash": "cf644573b1424d04e38561d28e95111e",
+      "uploadedAt": "2025-12-08T07:26:15.064Z"
+    },
+    "./IMG_1496.jpeg": {
+      "mediaId": 6858,
+      "url": "https://rajiv.com/wp-content/uploads/2025/12/IMG_1496-1.jpeg",
+      "hash": "63077060e1e0ec738d488b23022bf752",
+      "uploadedAt": "2025-12-08T07:26:15.062Z"
+    },
+    "./IMG_1511.jpeg": {
+      "mediaId": 6859,
+      "url": "https://rajiv.com/wp-content/uploads/2025/12/IMG_1511-1.jpeg",
+      "hash": "735349206f0070a5cbf69ad5ff74a360",
+      "uploadedAt": "2025-12-08T07:26:15.063Z"
+    },
+    "./IMG_1493.jpeg": {
+      "mediaId": 6860,
+      "url": "https://rajiv.com/wp-content/uploads/2025/12/IMG_1493-1.jpeg",
+      "hash": "f9e7a9c087d5c7a5a7c4fce39776891a",
+      "uploadedAt": "2025-12-08T07:26:15.063Z"
+    },
+    "./IMG_1494.jpeg": {
+      "mediaId": 6861,
+      "url": "https://rajiv.com/wp-content/uploads/2025/12/IMG_1494-1.jpeg",
+      "hash": "dea1cb337bc42552f4ee87682854ac50",
+      "uploadedAt": "2025-12-08T07:26:15.064Z"
+    },
+    "./IMG_1520.jpeg": {
+      "mediaId": 6863,
+      "url": "https://rajiv.com/wp-content/uploads/2025/12/IMG_1520-1.jpeg",
+      "hash": "8fb9e6e8c65cbf1bdd9bcfeba6862b2f",
+      "uploadedAt": "2025-12-08T07:26:15.065Z"
+    },
+    "./IMG_1522.jpeg": {
+      "mediaId": 6864,
+      "url": "https://rajiv.com/wp-content/uploads/2025/12/IMG_1522-1.jpeg",
+      "hash": "8a306aba92c39f34fa7b8eec2ac7cbed",
+      "uploadedAt": "2025-12-08T07:26:15.066Z"
     }
   }
 }
