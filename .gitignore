@@ -1,2 +1,9 @@
 # ignore Mac OS system files
 .DS_Store
+
+# Node.js
+node_modules/
+
+# Generated output (rebuild with `npm run build`)
+articles/
+wordpress-export/

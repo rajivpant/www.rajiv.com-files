@@ -1,0 +1,15 @@
+{
+  "name": "www.rajiv.com-files",
+  "version": "1.0.0",
+  "description": "Static files and blog post management for rajiv.com",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build.js",
+    "build:watch": "node scripts/build.js --watch",
+    "build:wordpress": "node scripts/build.js --wordpress-only"
+  },
+  "devDependencies": {
+    "gray-matter": "^4.0.3",
+    "marked": "^15.0.4"
+  }
+}

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{title}} - Rajiv Pant</title>
+  <meta name="description" content="{{description}}">
+  <link rel="canonical" href="{{canonical_url}}">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{title}}">
+  <meta property="og:description" content="{{description}}">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="{{canonical_url}}">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Prism.js for syntax highlighting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+
+  <style>
+    :root {
+      --text-color: #1a1a1a;
+      --text-muted: #666;
+      --bg-color: #fff;
+      --border-color: #e5e5e5;
+      --code-bg: #f5f5f5;
+      --link-color: #0066cc;
+      --max-width: 720px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--text-color);
+      background: var(--bg-color);
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    .preview-banner {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 4px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 2rem;
+      font-size: 0.875rem;
+    }
+
+    .preview-banner a {
+      color: #856404;
+    }
+
+    h1 {
+      font-size: 2.25rem;
+      line-height: 1.2;
+      margin: 0 0 1rem 0;
+      font-weight: 600;
+    }
+
+    .meta {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .meta span {
+      margin-right: 0.5rem;
+    }
+
+    article h2, article h3, article h4 {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    article h2 {
+      font-size: 1.5rem;
+    }
+
+    article h3 {
+      font-size: 1.25rem;
+    }
+
+    article p {
+      margin: 1.25rem 0;
+    }
+
+    article a {
+      color: var(--link-color);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 2px;
+    }
+
+    article a:hover {
+      text-decoration-thickness: 2px;
+    }
+
+    article ul, article ol {
+      padding-left: 1.5rem;
+      margin: 1.25rem 0;
+    }
+
+    article li {
+      margin: 0.5rem 0;
+    }
+
+    article blockquote {
+      border-left: 3px solid var(--border-color);
+      margin: 1.5rem 0;
+      padding: 0.5rem 0 0.5rem 1.5rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    article blockquote p {
+      margin: 0.5rem 0;
+    }
+
+    article pre {
+      background: var(--code-bg);
+      padding: 1rem;
+      overflow-x: auto;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      margin: 1.5rem 0;
+    }
+
+    article code {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.9em;
+    }
+
+    article p code, article li code {
+      background: var(--code-bg);
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+    }
+
+    article img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+      margin: 1.5rem 0;
+    }
+
+    article hr {
+      border: none;
+      border-top: 1px solid var(--border-color);
+      margin: 2rem 0;
+    }
+
+    .tags {
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--code-bg);
+      padding: 0.25rem 0.5rem;
+      border-radius: 3px;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .canonical-notice {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .canonical-notice a {
+      color: var(--link-color);
+    }
+
+    @media (max-width: 600px) {
+      body {
+        font-size: 16px;
+        padding: 1rem;
+      }
+
+      h1 {
+        font-size: 1.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="preview-banner">
+    <strong>Local Preview</strong> - This is a local preview of the article.
+    The canonical version is at <a href="{{canonical_url}}">{{canonical_url}}</a>
+  </div>
+
+  <article>
+    <h1>{{title}}</h1>
+    <div class="meta">
+      <span>{{formatted_date}}</span> ·
+      <span>{{reading_time}}</span>
+      {{category}}
+    </div>
+
+    {{content}}
+
+    <div class="tags">{{tags}}</div>
+  </article>
+
+  <div class="canonical-notice">
+    <strong>Canonical URL:</strong> <a href="{{canonical_url}}">{{canonical_url}}</a>
+  </div>
+
+  <!-- Prism.js for syntax highlighting -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js"></script>
+</body>
+</html>
