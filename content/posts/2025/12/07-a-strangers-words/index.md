@@ -12,7 +12,7 @@ tags:
 author: Rajiv Pant
 wordpress:
   post_id: 6855
-  synced_at: '2025-12-08T16:09:30.386Z'
+  synced_at: '2025-12-08T16:20:22.455Z'
   category_ids:
     - 5353
   tag_ids:
@@ -71,7 +71,7 @@ Fitz played two named roles — Young Jacob Marley and Tiny Tim — plus ensembl
 
 I've seen him perform before. School plays, community theater. But this felt different.
 
-![Fitz in Victorian costume with two adult actors](./IMG_1517.jpeg "Fitz with cast members")
+![Fitz in Victorian costume with two adult actors](./IMG_1518.jpeg "Fitz with cast members")
 
 This was the first time I watched him in a serious role that wasn't written for children. He wasn't a kid playing a kid's part. He was a character in the story — a real character, with weight and purpose in the plot. The person Young Marley becomes as an adult was played by someone else, but the foundation of that character, the innocence that would later curdle into greed, that was Fitz's work to establish.
 

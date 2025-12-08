@@ -1,6 +1,6 @@
 {
   "site": "https://rajiv.com",
-  "lastUpdated": "2025-12-08T07:26:15.058Z",
+  "lastUpdated": "2025-12-08T16:20:20.625Z",
   "uploaded": {
     "./a-strangers-words/IMG_1517.jpeg": {
       "mediaId": 6852,
@@ -85,6 +85,12 @@
       "url": "https://rajiv.com/wp-content/uploads/2025/12/IMG_1522-1.jpeg",
       "hash": "8a306aba92c39f34fa7b8eec2ac7cbed",
       "uploadedAt": "2025-12-08T07:26:15.066Z"
+    },
+    "./IMG_1518.jpeg": {
+      "mediaId": 6875,
+      "url": "https://rajiv.com/wp-content/uploads/2025/12/IMG_1518.jpeg",
+      "hash": "df56f83fa24705c6340c871d964e08a1",
+      "uploadedAt": "2025-12-08T16:20:20.634Z"
     }
   }
 }
