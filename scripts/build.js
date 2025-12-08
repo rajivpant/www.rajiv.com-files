@@ -147,6 +147,7 @@ function generateArticleHtml(article, template) {
     pre { background: #f5f5f5; padding: 1rem; overflow-x: auto; border-radius: 4px; }
     code { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
     blockquote { border-left: 3px solid #ddd; margin-left: 0; padding-left: 1rem; color: #555; }
+    img { max-width: 100%; height: auto; border-radius: 4px; margin: 1.5rem 0; }
   </style>
 </head>
 <body>
@@ -234,6 +235,43 @@ function ensureDirectories() {
 }
 
 /**
+ * Copy article assets (images) to output directory
+ * Returns number of files copied
+ */
+function copyArticleAssets(slug, articleDir) {
+  const assetsDir = path.join(CONTENT_DIR, slug);
+  if (!fs.existsSync(assetsDir)) {
+    return 0;
+  }
+
+  const files = fs.readdirSync(assetsDir);
+  let copied = 0;
+
+  for (const file of files) {
+    const srcPath = path.join(assetsDir, file);
+    const destPath = path.join(articleDir, file);
+
+    // Only copy files, not directories
+    if (fs.statSync(srcPath).isFile()) {
+      fs.copyFileSync(srcPath, destPath);
+      copied++;
+    }
+  }
+
+  return copied;
+}
+
+/**
+ * Rewrite image paths in HTML for local preview
+ * Changes ./slug/image.jpg to just image.jpg (since assets are copied to same dir)
+ */
+function rewriteImagePathsForPreview(html, slug) {
+  // Match src="./slug/filename" and replace with src="filename"
+  const pattern = new RegExp(`src="\\./${slug}/([^"]+)"`, 'g');
+  return html.replace(pattern, 'src="$1"');
+}
+
+/**
  * Main build function
  */
 function build() {
@@ -294,11 +332,18 @@ function build() {
       articles.push(article);
 
       // Generate local preview HTML
-      const articleHtml = generateArticleHtml(article, articleTemplate);
+      let articleHtml = generateArticleHtml(article, articleTemplate);
       const articleDir = path.join(OUTPUT_DIR, article.frontMatter.slug);
       if (!fs.existsSync(articleDir)) {
         fs.mkdirSync(articleDir, { recursive: true });
       }
+
+      // Copy article assets (images) and rewrite paths
+      const assetsCopied = copyArticleAssets(article.frontMatter.slug, articleDir);
+      if (assetsCopied > 0) {
+        articleHtml = rewriteImagePathsForPreview(articleHtml, article.frontMatter.slug);
+      }
+
       fs.writeFileSync(path.join(articleDir, 'index.html'), articleHtml);
 
       // Generate WordPress export
@@ -308,7 +353,8 @@ function build() {
         wordpressHtml
       );
 
-      console.log(`    ✅ Generated: ${article.frontMatter.slug} (${article.readingTime} min read)`);
+      const assetsMsg = assetsCopied > 0 ? `, ${assetsCopied} images` : '';
+      console.log(`    ✅ Generated: ${article.frontMatter.slug} (${article.readingTime} min read${assetsMsg})`);
 
     } catch (error) {
       console.log(`    ❌ Error: ${error.message}`);
