@@ -12,7 +12,7 @@ tags:
 author: Rajiv Pant
 wordpress:
   post_id: 6855
-  synced_at: '2025-12-08T15:15:48.139Z'
+  synced_at: '2025-12-08T15:32:54.459Z'
   category_ids:
     - 1
   tag_ids:
