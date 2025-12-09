@@ -19,14 +19,18 @@ This repository serves two purposes:
 
 Note: Home directory varies by machine, so use `~` for paths.
 
-## IMPORTANT: Content Separation
+## IMPORTANT: Content Separation (Many-to-Many Publishing)
 
-**DO NOT** manage Synthesis Coding articles in this repository. Those belong in `synthesis-coding-site`.
+**This repository is for rajiv.com articles that are NOT dual-published elsewhere.**
 
-Articles that should be in `synthesis-coding-site` (NOT here):
+Articles about Synthesis Coding belong in `synthesis-coding-site/`, even though they are also published to rajiv.com. This is because synthesis-coding-site manages dual-publishing to both rajiv.com AND synthesiscoding.com.
+
+**Articles that should be in `synthesis-coding-site` (NOT here):**
 - Articles about Synthesis Coding methodology
 - Articles tagged with "synthesis coding"
-- Articles with canonical URLs containing "synthesiscoding.com"
+- Articles that should appear on synthesiscoding.com
+
+**You CANNOT determine this from the URL alone** — a rajiv.com URL could belong in either repository depending on the topic. When in doubt, ASK the user.
 
 If you encounter an article that might belong in synthesis-coding-site, warn the user before proceeding.
 
@@ -94,11 +98,23 @@ cd ~/projects/my-projects/rajiv-site
 # Fetch article with hierarchical structure (recommended)
 ownwords fetch https://rajiv.com/blog/2025/01/15/article-slug/ --api --hierarchical --output-dir=./content
 
-# This creates: content/posts/2025/01/15-article-slug/index.md
+# This creates:
+#   content/posts/2025/01/15-article-slug/index.md        # Markdown with local image paths
+#   content/posts/2025/01/15-article-slug/index.json      # WordPress metadata sidecar
+#   content/posts/2025/01/15-article-slug/index.images.json  # Image tracking sidecar
+#   content/posts/2025/01/15-article-slug/*.png           # Downloaded images
 
 # Build to generate WordPress export
 npm run build
 ```
+
+**Image downloading** (enabled by default):
+- All images are downloaded locally and co-located with the markdown file
+- Image URLs in markdown are rewritten to local relative paths (`./image.png`)
+- The `featured_image` in front matter is also rewritten to local path
+- Smart caching: only downloads images that don't exist or have changed
+- Size deduplication: picks highest quality version when WordPress serves multiple sizes
+- Use `--no-images` to skip image downloading and keep remote URLs
 
 ### Creating a New Article
 
@@ -136,14 +152,16 @@ npm run build
 
 ### Publishing Back to WordPress
 
-**Recommended: Use ownwords publish (with safeguards)**
+The ownwords tool defaults to `publish` status, so posts are published (not drafted) by default.
+
+**Recommended workflow:**
 
 ```bash
 # Always preview first
 node ~/projects/my-projects/ownwords/bin/ownwords.js publish ./content/posts/2025/12/07-your-slug/index.md --dryrun
 
 # Verify the dry-run output shows:
-# - "UPDATE existing post" (not "CREATE new post")
+# - "UPDATE existing post" (not "CREATE new post") for updates
 # - "Would upload: 0" for images (if images already uploaded)
 # - Correct post_id matches what's in front matter
 
