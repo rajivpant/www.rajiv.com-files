@@ -12,7 +12,7 @@ tags:
 author: Rajiv Pant
 wordpress:
   post_id: 6855
-  synced_at: '2025-12-08T16:20:22.455Z'
+  synced_at: '2025-12-09T04:23:59.345Z'
   category_ids:
     - 5353
   tag_ids:
@@ -25,7 +25,7 @@ wordpress:
 
 ## Part One: The Train to Connecticut
 
-I'm on a train to Connecticut. It's Saturday afternoon, and I'm thinking about a theater review I read this morning.
+I'm [on a train to Connecticut again](https://rajiv.com/blog/2023/06/18/on-this-fathers-day-may-your-life-be-as-marvelous-as-your-social-media-presence/). It's Saturday afternoon, and I'm thinking about a theater review I read this morning.
 
 The reviewer, a high school junior named Ruby Szekeres writing for the Youth Arts Journalism Initiative, covered the world premiere of *Scrooge and Marley* at Legacy Theatre in Branford. The show reimagines *A Christmas Carol* from Jacob Marley's perspective — exploring how he became the man whose ghost sets Dickens' story in motion.
 
@@ -101,9 +101,11 @@ I was going to take a selfie with him, but another audience member offered to ta
 
 Julie had asked me to drive Fitz back to their house after the show, so we took a car together. It was maybe twenty minutes.
 
-In the car, he told me multiple times how happy he was that I came. How surprised he was. How much it meant to him.
+In the car, he told me how happy he was that I came. How surprised he was. How much it meant to him.
 
 I don't remember exactly what I said back. Probably something inadequate. But I remember thinking: this is it. This is the stuff that matters. Not the performance, not the review — this. A car ride. A conversation. A kid telling his dad he's glad he showed up.
+
+The next morning, Julie texted me. She said my being there meant a lot to Fitz. A little while later, I saw a message from Fitz himself, asking if I'd gotten home safely.
 
 ---
 
@@ -132,10 +134,6 @@ I didn't teach him to act. I can't sing. I have no wisdom about the theater. Wha
 But I showed up. I took a train to Connecticut to watch him without telling him I was coming. I sat in the third row, in the far corner, and I watched.
 
 Sometimes that's all you can do. Sometimes that's enough.
-
-The next morning, Julie texted me. She said my being there meant a lot to Fitz.
-
-A little while later, I saw a message from Fitz himself, asking if I'd gotten home safely.
 
 ---
 
